@@ -158,4 +158,4 @@ product-research-reports/{KEYWORD}_{SITE}_{YYYYMMDD}/
 
 ## 许可证
 
-MIT
+MIT 致谢：https://github.com/liangdabiao/amazon-sorftime-research-MCP-skill/tree/main
