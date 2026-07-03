@@ -1,0 +1,92 @@
+# Commands
+
+## 1. Listing Analysis
+
+```text
+/amazon-analyse {ASIN} {SITE}
+```
+
+Purpose:
+
+- collect SellerSprite MCP listing data;
+- produce a Markdown report;
+- run data validation;
+- optionally produce product-manager meeting Excel.
+
+Output:
+
+```text
+reports/{ASIN}_{SITE}_{YYYYMMDD}/report.md
+```
+
+## 2. Category Selection
+
+```text
+/category-select "{CATEGORY}" {SITE}
+```
+
+Purpose:
+
+- evaluate full category opportunity;
+- score market size, growth, competition, barriers, and margin;
+- produce enter/observe/reject recommendation.
+
+Output:
+
+```text
+category-reports/{CATEGORY}_{SITE}_{YYYYMMDD}/report.md
+```
+
+## 3. Keyword Research
+
+```text
+/keyword-research {ASIN} {SITE}
+```
+
+Purpose:
+
+- collect keyword library;
+- classify terms into 8 dimensions;
+- produce listing and ad strategy.
+
+Output:
+
+```text
+keyword-reports/{ASIN}_{SITE}_{YYYYMMDD}/
+```
+
+## 4. Review Analysis
+
+```text
+/review-analysis {ASIN} {SITE}
+```
+
+Purpose:
+
+- analyze positive and negative reviews;
+- identify product pain points and return risk;
+- produce improvement and listing correction actions.
+
+Output:
+
+```text
+review-analysis-reports/{ASIN}_{SITE}_{YYYYMMDD}/report.md
+```
+
+## 5. Product Research
+
+```text
+/product-research "{PRODUCT_KEYWORD}" {SITE}
+```
+
+Purpose:
+
+- research a product direction;
+- compare representative products;
+- evaluate demand, competition, differentiation, profit, and launch path.
+
+Output:
+
+```text
+product-research-reports/{PRODUCT_KEYWORD}_{SITE}_{YYYYMMDD}/report.md
+```
