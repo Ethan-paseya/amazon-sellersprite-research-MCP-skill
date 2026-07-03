@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "sellersprite": {
+      "type": "streamableHttp",
+      "url": "https://mcp.sellersprite.com/mcp?secret-key=YOUR_SELLERSPRITE_KEY",
+      "name": "SellerSprite MCP"
+    }
+  }
+}
