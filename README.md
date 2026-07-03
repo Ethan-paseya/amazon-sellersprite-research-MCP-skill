@@ -155,14 +155,7 @@ product-research-reports/{KEYWORD}_{SITE}_{YYYYMMDD}/
 - `/amazon-analyse` 在 Markdown 保存后询问：`是否需要转换为Excel表格输出？`
 - 无论是否转换 Excel，都不能删除、覆盖或跳过 Markdown。
 
-## 开源前检查
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\check-package.ps1
-```
-
-通过后再发布。
 
 ## 许可证
 
-MIT。请根据你的实际开源策略调整。
+MIT
