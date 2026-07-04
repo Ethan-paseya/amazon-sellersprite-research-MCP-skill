@@ -90,3 +90,21 @@ Output:
 ```text
 product-research-reports/{PRODUCT_KEYWORD}_{SITE}_{YYYYMMDD}/report.md
 ```
+
+## 6. Product Planning
+
+```text
+/product-planning "{PRODUCT_IDEA}" {SITE}
+```
+
+Purpose:
+
+- turn product/category/keyword research into a product initiation plan;
+- define intended product, market evidence, competitor gaps, SWOT, keyword logic, cost feasibility, and first-three-month launch plan;
+- produce reusable Markdown and optional Excel planning workbook.
+
+Output:
+
+```text
+product-planning-reports/{PRODUCT_IDEA}_{SITE}_{YYYYMMDD}/
+```
