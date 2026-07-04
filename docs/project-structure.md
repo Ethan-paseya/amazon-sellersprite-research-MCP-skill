@@ -8,13 +8,15 @@ amazon-sellersprite-research-MCP-skill/
 │       ├── category-selection/
 │       ├── keyword-research/
 │       ├── review-analysis/
-│       └── product-research/
+│       ├── product-research/
+│       └── product-planning/
 ├── skills/
 │   ├── amazon-analyse/
 │   ├── category-selection/
 │   ├── keyword-research/
 │   ├── review-analysis/
-│   └── product-research/
+│   ├── product-research/
+│   └── product-planning/
 ├── references/
 │   ├── sellersprite-mcp-api.md
 │   ├── report-management.md
@@ -23,6 +25,7 @@ amazon-sellersprite-research-MCP-skill/
 ├── templates/
 │   ├── amazon-single-product-report.zh.md
 │   ├── excel-workbook-layout.md
+│   ├── product-planning-workbook-layout.md
 │   └── amazon_single_product_meeting_template.xlsx
 ├── scripts/
 │   ├── create-placeholder-template.ps1
@@ -35,6 +38,7 @@ amazon-sellersprite-research-MCP-skill/
 ├── keyword-reports/
 ├── review-analysis-reports/
 ├── product-research-reports/
+├── product-planning-reports/
 ├── docs/
 ├── .mcp.json.example
 ├── .env.example
