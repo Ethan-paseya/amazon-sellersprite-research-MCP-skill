@@ -30,6 +30,10 @@ product-research-reports/*
 !product-research-reports/README.md
 !product-research-reports/.gitkeep
 
+product-planning-reports/*
+!product-planning-reports/README.md
+!product-planning-reports/.gitkeep
+
 *.secret
 *.key
 *.pem
