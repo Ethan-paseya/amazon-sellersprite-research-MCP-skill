@@ -20,11 +20,20 @@ Recommended calls:
 
 - `asin_detail`: product title, brand, price, rating, category, rank.
 - `asin_sales_trend`: sales, revenue, price trend.
+- `asin_prediction`, `bsr_prediction`, `keepa_info`: forecast/history context when available.
+- `asin_coupon_trend` or `asin_detail_with_coupon_trend`: coupon/promotion context when available.
+- `traffic_keyword_stat`: ASIN traffic keyword source overview.
 - `traffic_keyword`: traffic keywords for the ASIN.
+- `traffic_source`: organic/recommendation/ad traffic source structure.
 - `traffic_extend`: competitor and keyword exposure context.
+- `traffic_listing`: keyword/listing traffic context when available.
+- `keyword_miner`, `keyword_order`, `keyword_research_trends`: keyword demand, ranking, PPC, and trend checks.
 - `review`: positive and negative review samples.
+- `trademark_list` / `trademark_stats`: optional brand/IP risk evidence when relevant.
 
 Do not store raw credentials in request examples.
+Normalize `GB` to SellerSprite MCP `UK` before tool calls.
+If MCP cannot provide a required evidence point, document the gap first. Use browser/crawler fallback only for that missing evidence and label it separately from MCP evidence.
 
 ## 3. Markdown Report
 
@@ -55,6 +64,7 @@ Rules:
 - `不需要`: keep only the Markdown report.
 - Always preserve the Markdown report.
 - Never delete, overwrite, or replace the Markdown report with Excel.
+- When Excel is generated, include a `MCP原始数据` worksheet with the raw MCP evidence used by the report after removing API keys, secret-key URLs, tokens, and local absolute paths.
 
 ## 5. Cross Validation
 
