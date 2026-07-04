@@ -60,7 +60,7 @@ else {
     Write-Host "Repository already exists: $owner/$RepoName"
 }
 
-$excludeDirs = @("\.git\", "\reports\", "\category-reports\", "\keyword-reports\", "\review-analysis-reports\", "\product-research-reports\")
+$excludeDirs = @("\.git\", "\reports\", "\category-reports\", "\keyword-reports\", "\review-analysis-reports\", "\product-research-reports\", "\product-planning-reports\")
 $files = Get-ChildItem -Path $root -Recurse -File | Where-Object {
     $full = $_.FullName
     $relative = $full.Substring($root.Path.Length + 1)
