@@ -2,14 +2,14 @@
     [ValidateSet("claude", "codex")]
     [string]$Target = "codex",
 
-    [ValidateSet("all", "amazon-analyse", "category-selection", "keyword-research", "review-analysis", "product-research")]
+    [ValidateSet("all", "amazon-analyse", "category-selection", "keyword-research", "review-analysis", "product-research", "product-planning")]
     [string]$Skill = "all"
 )
 
 $ErrorActionPreference = "Stop"
 
 $repo = Resolve-Path (Join-Path $PSScriptRoot "..")
-$skillNames = @("amazon-analyse", "category-selection", "keyword-research", "review-analysis", "product-research")
+$skillNames = @("amazon-analyse", "category-selection", "keyword-research", "review-analysis", "product-research", "product-planning")
 if ($Skill -ne "all") {
     $skillNames = @($Skill)
 }
