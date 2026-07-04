@@ -157,6 +157,18 @@ $sheets = @(
             @{ Values = @("{{DATA_PROVIDER}}", "traffic_keyword / traffic_extend", "关键词与流量") },
             @{ Values = @("{{DATA_PROVIDER}}", "review", "评论VOC") }
         )
+    },
+    @{
+        Name = "MCP原始数据"
+        Widths = @(28, 22, 12, 38, 70, 38)
+        Merge = ""
+        Filter = "A1:F8"
+        Rows = @(
+            @{ Values = @("数据文件/接口", "采集时间", "记录序号", "字段路径", "原始值", "备注"); Styles = @(2,2,2,2,2,2) },
+            @{ Values = @("{{RAW_SOURCE_1}}", "{{RAW_COLLECTED_AT_1}}", "{{RAW_INDEX_1}}", "{{RAW_FIELD_PATH_1}}", "{{RAW_VALUE_1}}", "{{RAW_NOTE_1}}") },
+            @{ Values = @("{{RAW_SOURCE_2}}", "{{RAW_COLLECTED_AT_2}}", "{{RAW_INDEX_2}}", "{{RAW_FIELD_PATH_2}}", "{{RAW_VALUE_2}}", "{{RAW_NOTE_2}}") },
+            @{ Values = @("{{RAW_SOURCE_3}}", "{{RAW_COLLECTED_AT_3}}", "{{RAW_INDEX_3}}", "{{RAW_FIELD_PATH_3}}", "{{RAW_VALUE_3}}", "{{RAW_NOTE_3}}") }
+        )
     }
 )
 
@@ -180,6 +192,7 @@ SaveText (Join-Path $tmp "[Content_Types].xml") @"
   <Override PartName="/xl/worksheets/sheet5.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>
   <Override PartName="/xl/worksheets/sheet6.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>
   <Override PartName="/xl/worksheets/sheet7.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>
+  <Override PartName="/xl/worksheets/sheet8.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>
 </Types>
 "@
 
@@ -198,6 +211,7 @@ for ($i = 0; $i -lt $sheets.Count; $i++) {
     $relsXml.Add("<Relationship Id=`"rId$id`" Type=`"http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet`" Target=`"worksheets/sheet$id.xml`"/>")
     SaveText (Join-Path $tmp "xl\worksheets\sheet$id.xml") (SheetXml $sheets[$i].Rows $sheets[$i].Widths 1 $sheets[$i].Filter $sheets[$i].Merge)
 }
+$stylesRelId = "rId$($sheets.Count + 1)"
 
 SaveText (Join-Path $tmp "xl\workbook.xml") @"
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -211,7 +225,7 @@ SaveText (Join-Path $tmp "xl\_rels\workbook.xml.rels") @"
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
   $($relsXml -join '')
-  <Relationship Id="rId8" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
+  <Relationship Id="$stylesRelId" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
 </Relationships>
 "@
 
