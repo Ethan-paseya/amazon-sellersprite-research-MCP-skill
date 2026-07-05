@@ -37,7 +37,10 @@ Before any data or validation call, read `references/runtime-credential-prefligh
 
 Read `references/planning-workflow.md` before creating a planning output.
 Read bundled `references/sellersprite-mcp-api.md` before collecting SellerSprite data when it is available.
-Use `templates/product-planning-report.zh.md` and `templates/product-planning-workbook-layout.md` as repo-level output templates when they are available.
+Read bundled `references/product-planning-mcp-flow.zh.md` before deciding which MCP tools support each planning section.
+Use `templates/product-planning-report.zh.md` for Markdown output when available.
+Use `templates/product-planning-meeting-workbook-layout.zh.md` and `templates/product_planning_meeting_template.xlsx` as the default Excel meeting workbook template when available.
+Use `templates/product-planning-workbook-layout.md` only when the user explicitly asks for a full operating workbook with cost and sales-plan sheets.
 
 Normalize `GB` to SellerSprite MCP `UK` before tool calls.
 
@@ -54,15 +57,19 @@ Cost, MOQ, supplier feasibility, packaging, freight, refund rate, and inventory 
 ## Workflow
 
 1. Parse product idea, site, target launch market, and available source files.
-2. Build an evidence inventory from SellerSprite MCP, existing reports, keyword data, review/VOC data, and cost inputs.
-3. Define the intended product: price positioning, customer group, functions, unmet needs, material, packaging, style, target cost, target selling price, target margin, launch month, and first batch.
-4. Analyze the market: sales trend, seasonality, listing age, rating/review barriers, price bands, brand concentration, and keyword trend.
-5. Tear down representative competitors: listing selling points, positive review keywords, negative pain points, and benchmark direction.
-6. Build SWOT with evidence-backed S/W/O/T.
-7. Build ABA/keyword table: search volume, purchase volume, product count, average price, PPC, supply-demand ratio, click concentration, rank, and strategic note.
-8. Run cost and price scenarios: procurement cost, dimensions, gross/chargeable weight, platform fees, FBA/fulfillment, first-leg freight, refund rate, ad ratio, gross margin, and gross profit.
-9. Create a first-three-month sales plan: units, revenue, profit, margin, price stage, launch stage, and monitoring metrics.
-10. Output a go/hold/reject decision with P0/P1/P2 actions and validation thresholds.
+2. Run credential preflight. Missing SellerSprite key blocks evidence collection; missing Gemini/GLM keys block real double-model validation.
+3. Locate category nodes with `product_node`; record selected `nodeIdPath` and any missing category-name fields.
+4. Validate keyword demand with `keyword_miner`, `keyword_research`, and `keyword_research_trends` when available.
+5. Generate and clean competitor candidates with `competitor_lookup` and `product_research`; filter by title relevance and category node before treating an item as a direct competitor.
+6. Pull representative competitor details with `asin_detail`; collect sales trend with `asin_sales_trend` when available.
+7. Pull VOC with `review` for selected ASINs, split positive and negative samples when enough data exists.
+8. Analyze category maturity and barriers with `market_research_statistics`, `market_product_demand_trend`, `market_price_distribution`, `market_rating_distribution`, `market_brand_concentration`, `market_seller_concentration`, and listing-age distribution tools.
+9. Build ABA/traffic table with `keyword_order`, `traffic_keyword_stat`, `traffic_keyword`, `traffic_source`, `aba_research_monthly`, and `aba_research_weekly` where available.
+10. Check trend/IP side evidence with `google_trend` and `trademark_*` tools when relevant.
+11. Define the intended product: price positioning, customer group, functions, unmet needs, material, packaging, style, target cost, target selling price, target margin, launch month, and first batch.
+12. For the default meeting workbook, do not create `成本试算` or `销售计划` sheets. Keep cost, fulfillment, freight, refund, and sales-plan values out of Excel unless the user explicitly asks for financial planning and provides assumptions.
+13. In the default meeting workbook, preserve auditability with `MCP原始数据` and `数据来源` sheets placed immediately after `ABA排名【季度】`.
+14. Output a go/hold/reject decision with P0/P1/P2 actions, validation thresholds, evidence citations, and a data-gap table.
 
 If MCP has no suitable interface for a needed evidence point, mark the data gap first, then use a browser/crawler fallback only for that missing item and label it separately from MCP evidence.
 
@@ -79,3 +86,17 @@ product-planning-reports/{PRODUCT_IDEA}_{SITE}_{YYYYMMDD}/
 ```
 
 Use Chinese for user-facing reports unless the user asks otherwise.
+
+## Default Excel Meeting Template
+
+When the user asks for a reusable meeting-style product-planning Excel workbook, use this sheet order:
+
+1. `意向产品`
+2. `市场分析`
+3. `竟品分析与优化策略`
+4. `SWOT分析`
+5. `ABA排名【季度】`
+6. `MCP原始数据`
+7. `数据来源`
+
+Do not include `成本试算` or `销售计划` in this default meeting template. Add them only as optional sheets after explicit user confirmation and with user-provided assumptions.
