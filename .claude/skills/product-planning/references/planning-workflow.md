@@ -21,6 +21,20 @@ This workflow is distilled from a mature product initiation workbook. Keep it ev
 - Competitor product actions must cite listing points, positive reviews, or negative reviews.
 - Cost conclusions must cite cost assumptions, formulas, or manually supplied numbers.
 - If data is missing, write `N/A` and add a gap note; do not fill with plausible-looking numbers.
+- For SellerSprite MCP execution details, read `product-planning-mcp-flow.zh.md`.
+
+## MCP Tool Sequence
+
+| Stage | Required MCP tools | Decision rule |
+|---|---|---|
+| Category discovery | `product_node` | Select a relevant `nodeIdPath`; record missing node names as a data gap |
+| Keyword demand | `keyword_miner`, `keyword_research`, `keyword_research_trends` | Keep only relevant keywords with usable demand/competition fields |
+| Competitor pool | `competitor_lookup`, `product_research` | Filter noisy results by title relevance and category node |
+| Competitor detail | `asin_detail`, optional `asin_sales_trend` | Use price, rating, ratings, fulfillment, LQS, node path as benchmark evidence |
+| VOC | `review` | Extract pain points only from review evidence |
+| Category validation | `market_research_statistics`, `market_product_demand_trend`, `market_price_distribution`, `market_rating_distribution`, concentration/distribution tools | Treat empty fields as data gaps |
+| ABA/traffic | `keyword_order`, `traffic_keyword_stat`, `traffic_keyword`, `traffic_source`, `aba_research_monthly`, `aba_research_weekly` | Use available fields; do not infer absent traffic shares |
+| Risk supplement | `google_trend`, `trademark_*` | Use only as auxiliary evidence; if empty, mark as gap |
 
 ## Recommended Decision Gates
 
