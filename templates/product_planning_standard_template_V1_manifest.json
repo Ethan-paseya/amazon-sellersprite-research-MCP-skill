@@ -1,0 +1,22 @@
+{
+  "name": "product-planning 标准化模板",
+  "templateVersion": "V1",
+  "confirmedAt": "2026-07-06",
+  "workbook": "product_planning_standard_template_V1.xlsx",
+  "layoutSpec": "product-planning-meeting-workbook-layout.zh.md",
+  "command": "/product-planning \"{PRODUCT_IDEA}\" {SITE}",
+  "sheetOrder": [
+    "意向产品",
+    "市场分析",
+    "竞品分析与优化策略",
+    "SWOT分析",
+    "ABA排名【季度】",
+    "MCP原始数据",
+    "数据来源"
+  ],
+  "defaultScope": "不包含成本试算和销售计划；如用户明确要求并提供成本/销量假设，才单独追加。",
+  "evidenceRule": "所有结论必须由 SellerSprite MCP、Amazon 前端、已有源报告或用户提供假设支撑；MCP 没有返回的数据必须写 N/A 或数据缺口，不允许凭空补数。",
+  "excelOutputRule": "后续生成 Excel 时必须保留 Markdown 报告，并将 MCP 原始/聚合数据输出到工作簿的 MCP原始数据 与 数据来源 Sheet。",
+  "validationRule": "报告完成后按可用密钥执行 Gemini + GLM 脱敏交叉验证；验证输入只发送脱敏摘要，不发送 API key、token、本地路径或 raw 文件名。",
+  "status": "confirmed-standard-template"
+}
