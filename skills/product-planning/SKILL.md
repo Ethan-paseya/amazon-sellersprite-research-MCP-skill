@@ -39,7 +39,7 @@ Read `references/planning-workflow.md` before creating a planning output.
 Read bundled `references/sellersprite-mcp-api.md` before collecting SellerSprite data when it is available.
 Read bundled `references/product-planning-mcp-flow.zh.md` before deciding which MCP tools support each planning section.
 Use `templates/product-planning-report.zh.md` for Markdown output when available.
-Use `templates/product-planning-meeting-workbook-layout.zh.md` and `templates/product_planning_meeting_template.xlsx` as the default Excel meeting workbook template when available.
+Use `templates/product-planning-meeting-workbook-layout.zh.md`, `templates/product_planning_standard_template_V1_manifest.json`, and `templates/product_planning_standard_template_V1.xlsx` as the default Excel meeting workbook template when available.
 Use `templates/product-planning-workbook-layout.md` only when the user explicitly asks for a full operating workbook with cost and sales-plan sheets.
 
 Normalize `GB` to SellerSprite MCP `UK` before tool calls.
@@ -93,7 +93,7 @@ When the user asks for a reusable meeting-style product-planning Excel workbook,
 
 1. `意向产品`
 2. `市场分析`
-3. `竟品分析与优化策略`
+3. `竞品分析与优化策略`
 4. `SWOT分析`
 5. `ABA排名【季度】`
 6. `MCP原始数据`
