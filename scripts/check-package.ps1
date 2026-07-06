@@ -62,8 +62,11 @@ $required = @(
     "scripts\test-open-source-skills.ps1",
     "templates\amazon-single-product-report.zh.md",
     "templates\product-planning-report.zh.md",
+    "templates\product-planning-meeting-workbook-layout.zh.md",
     "templates\product-planning-workbook-layout.md",
     "templates\amazon_single_product_meeting_template.xlsx",
+    "templates\product_planning_standard_template_V1.xlsx",
+    "templates\product_planning_standard_template_V1_manifest.json",
     "reports\README.md",
     "category-reports\README.md",
     "keyword-reports\README.md",
@@ -79,20 +82,27 @@ foreach ($item in $required) {
     }
 }
 
-Write-Host "Checking Excel template package..."
+Write-Host "Checking Excel template packages..."
 Add-Type -AssemblyName System.IO.Compression.FileSystem
-$xlsx = Join-Path $Path "templates\amazon_single_product_meeting_template.xlsx"
-$zip = [System.IO.Compression.ZipFile]::OpenRead((Resolve-Path $xlsx))
-try {
-    foreach ($entry in $zip.Entries | Where-Object { $_.FullName.EndsWith(".xml") }) {
-        $reader = New-Object IO.StreamReader($entry.Open())
-        $xml = $reader.ReadToEnd()
-        $reader.Close()
-        [xml]$null = $xml
+$xlsxFiles = @(
+    "templates\amazon_single_product_meeting_template.xlsx",
+    "templates\product_planning_standard_template_V1.xlsx"
+)
+
+foreach ($xlsxFile in $xlsxFiles) {
+    $xlsx = Join-Path $Path $xlsxFile
+    $zip = [System.IO.Compression.ZipFile]::OpenRead((Resolve-Path $xlsx))
+    try {
+        foreach ($entry in $zip.Entries | Where-Object { $_.FullName.EndsWith(".xml") }) {
+            $reader = New-Object IO.StreamReader($entry.Open())
+            $xml = $reader.ReadToEnd()
+            $reader.Close()
+            [xml]$null = $xml
+        }
     }
-}
-finally {
-    $zip.Dispose()
+    finally {
+        $zip.Dispose()
+    }
 }
 
 Write-Host "Package check passed."
