@@ -38,7 +38,9 @@ Before any data or validation call, read `references/runtime-credential-prefligh
 Read `references/planning-workflow.md` before creating a planning output.
 Read bundled `references/sellersprite-mcp-api.md` before collecting SellerSprite data when it is available.
 Read bundled `references/product-planning-mcp-flow.zh.md` before deciding which MCP tools support each planning section.
-Use `templates/product-planning-report.zh.md` and `templates/product-planning-workbook-layout.md` as repo-level output templates when they are available.
+Use `templates/product-planning-report.zh.md` for Markdown output when available.
+Use `templates/product-planning-meeting-workbook-layout.zh.md`, `templates/product_planning_standard_template_V1_manifest.json`, and `templates/product_planning_standard_template_V1.xlsx` as the default Excel meeting workbook template when available.
+Use `templates/product-planning-workbook-layout.md` only when the user explicitly asks for a full operating workbook with cost and sales-plan sheets.
 
 Normalize `GB` to SellerSprite MCP `UK` before tool calls.
 
@@ -65,8 +67,8 @@ Cost, MOQ, supplier feasibility, packaging, freight, refund rate, and inventory 
 9. Build ABA/traffic table with `keyword_order`, `traffic_keyword_stat`, `traffic_keyword`, `traffic_source`, `aba_research_monthly`, and `aba_research_weekly` where available.
 10. Check trend/IP side evidence with `google_trend` and `trademark_*` tools when relevant.
 11. Define the intended product: price positioning, customer group, functions, unmet needs, material, packaging, style, target cost, target selling price, target margin, launch month, and first batch.
-12. Run cost and price scenarios using MCP market/keyword references plus user-provided or clearly labeled manual assumptions.
-13. Create a first-three-month sales plan: units, revenue, profit, margin, price stage, launch stage, and monitoring metrics.
+12. For the default meeting workbook, do not create `成本试算` or `销售计划` sheets. Keep cost, fulfillment, freight, refund, and sales-plan values out of Excel unless the user explicitly asks for financial planning and provides assumptions.
+13. In the default meeting workbook, preserve auditability with `MCP原始数据` and `数据来源` sheets placed immediately after `ABA排名【季度】`.
 14. Output a go/hold/reject decision with P0/P1/P2 actions, validation thresholds, evidence citations, and a data-gap table.
 
 If MCP has no suitable interface for a needed evidence point, mark the data gap first, then use a browser/crawler fallback only for that missing item and label it separately from MCP evidence.
@@ -84,3 +86,17 @@ product-planning-reports/{PRODUCT_IDEA}_{SITE}_{YYYYMMDD}/
 ```
 
 Use Chinese for user-facing reports unless the user asks otherwise.
+
+## Default Excel Meeting Template
+
+When the user asks for a reusable meeting-style product-planning Excel workbook, use this sheet order:
+
+1. `意向产品`
+2. `市场分析`
+3. `竞品分析与优化策略`
+4. `SWOT分析`
+5. `ABA排名【季度】`
+6. `MCP原始数据`
+7. `数据来源`
+
+Do not include `成本试算` or `销售计划` in this default meeting template. Add them only as optional sheets after explicit user confirmation and with user-provided assumptions.
