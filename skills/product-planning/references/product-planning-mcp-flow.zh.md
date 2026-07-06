@@ -7,7 +7,9 @@
 - 先取 MCP 数据，再写企划结论。
 - 每个表格/章节都要有证据来源或明确的数据缺口。
 - 不要把 `product_research` 的第一页结果直接当竞品池；必须做标题、类目节点、关键词相关度过滤。
+- V1 标准会议版 Excel 默认只输出 `意向产品`、`市场分析`、`竞品分析与优化策略`、`SWOT分析`、`ABA排名【季度】`、`MCP原始数据`、`数据来源`。
 - 成本、MOQ、包装、运费、退款率、广告占比不是 SellerSprite MCP 的直接输出，必须来自用户输入、已有文件或标注为情景假设。
+- `成本试算` 和 `销售计划` 不属于 V1 默认 Sheet；只有用户明确要求财务测算并提供假设时，才作为可选扩展输出。
 - 如果 Gemini/GLM key 缺失，先向用户索要；用户拒绝后只能写规则校验，不能写真实双模型验证。
 
 ## 2. 企划模块与 MCP 工具映射
@@ -20,8 +22,8 @@
 | VOC/评论 | 用户痛点是什么 | `review` | `traffic_keyword` | 低星评论主题、正向卖点、退货/安全/说明书风险 |
 | SWOT | 机会和威胁是否有证据 | 复用市场、竞品、关键词、评论工具 | `trademark_list`, `trademark_stats`, `google_trend` | S/W/O/T 每条必须引用数据源 |
 | ABA/关键词 | 先打哪些词，避开哪些词 | `keyword_miner`, `keyword_order` | `keyword_research`, `keyword_research_trends`, `aba_research_monthly`, `aba_research_weekly`, `traffic_source` | 搜索量、购买量、PPC、商品数、供需比、点击集中度、转化类型 |
-| 成本试算 | 价格是否覆盖成本 | 无直接 MCP 硬依赖 | `market_research_statistics`, `keyword_miner` | 平台均价、竞品价格、PPC 作为售价/广告假设参考；成本用用户数据或情景假设 |
-| 销售计划 | 90 天目标是否合理 | `market_research_statistics`, `keyword_miner`, `competitor_lookup` | `asin_sales_trend` | 均值销量、关键词需求、竞品价格/评分/评论壁垒；销量目标必须标注假设 |
+| 成本试算（可选扩展） | 价格是否覆盖成本 | 无直接 MCP 硬依赖 | `market_research_statistics`, `keyword_miner` | 平台均价、竞品价格、PPC 作为售价/广告假设参考；成本用用户数据或情景假设 |
+| 销售计划（可选扩展） | 90 天目标是否合理 | `market_research_statistics`, `keyword_miner`, `competitor_lookup` | `asin_sales_trend` | 均值销量、关键词需求、竞品价格/评分/评论壁垒；销量目标必须标注假设 |
 | 数据来源 | 是否可审计 | 所有实际调用工具 | 无 | 工具名、入参摘要、字段缺口、采用/未采用原因 |
 
 ## 3. 推荐调用顺序
@@ -193,7 +195,9 @@ traffic_source
 - 自然流量 vs 广告流量
 - 关键词优先级
 
-### Step 8: 成本与销售计划
+### Step 8: 成本与销售计划（可选扩展）
+
+V1 标准会议版默认不输出成本与销售计划 Sheet。只有用户明确要求财务测算，并提供采购、物流、售价、广告占比、退款率等假设时，才执行本步骤。
 
 MCP 只提供市场参考，不直接提供真实采购成本。必须分清：
 
