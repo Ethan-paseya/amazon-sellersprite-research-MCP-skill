@@ -100,8 +100,9 @@ product-research-reports/{PRODUCT_KEYWORD}_{SITE}_{YYYYMMDD}/report.md
 Purpose:
 
 - turn product/category/keyword research into a product initiation plan;
-- define intended product, market evidence, competitor gaps, SWOT, keyword logic, cost feasibility, and first-three-month launch plan;
-- produce reusable Markdown and optional Excel planning workbook.
+- define intended product, market evidence, competitor gaps, SWOT, ABA/keyword logic, MCP source data, and data-source traceability;
+- produce reusable Markdown and optional V1 Excel planning workbook;
+- exclude `成本试算` and `销售计划` by default unless the user explicitly asks for financial planning and provides assumptions.
 
 Output:
 
