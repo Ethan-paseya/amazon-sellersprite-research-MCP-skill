@@ -28,9 +28,15 @@ amazon-sellersprite-research-MCP-skill/
 │   ├── product-planning-workbook-layout.md
 │   └── amazon_single_product_meeting_template.xlsx
 ├── scripts/
-│   ├── create-placeholder-template.ps1
-│   ├── install-skill.ps1
-│   └── scan-sensitive.ps1
+│   ├── python/
+│   │   ├── sellersprite_skill_tools.py
+│   │   ├── scan_sensitive.py
+│   │   ├── check_runtime_config.py
+│   │   ├── check_package.py
+│   │   ├── test_open_source_skills.py
+│   │   ├── install_skill.py
+│   │   ├── publish_github_api.py
+│   │   └── create_placeholder_template.py
 ├── examples/
 │   └── sanitized-report.md
 ├── reports/
@@ -53,3 +59,7 @@ amazon-sellersprite-research-MCP-skill/
 - `skills/*` is a generic/Codex-friendly copy.
 
 Keep both in sync when changing the skill.
+
+## Tooling
+
+- `scripts/python/*` is the recommended toolchain for checks, installation, package validation, and GitHub publishing.
