@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Amazon SellerSprite MCP Skill Python Toolbox</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17202a;
+      --muted: #5f6b7a;
+      --line: #d7dee8;
+      --blue: #1f5f99;
+      --green: #1f7a4d;
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --code: #0f1720;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    header {
+      background: var(--blue);
+      color: #fff;
+      padding: 28px 32px;
+    }
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 26px;
+      letter-spacing: 0;
+    }
+    header p { margin: 0; opacity: .92; }
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+    }
+    h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+    p { margin: 8px 0; color: var(--muted); }
+    code, pre {
+      font-family: Consolas, "SFMono-Regular", Menlo, monospace;
+    }
+    pre {
+      background: var(--code);
+      color: #e8eef7;
+      border-radius: 6px;
+      padding: 12px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 10px 0 0;
+    }
+    button {
+      border: 1px solid var(--blue);
+      background: #fff;
+      color: var(--blue);
+      border-radius: 6px;
+      padding: 7px 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover { background: #eef6ff; }
+    .cmd-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+    .note {
+      border-left: 4px solid var(--green);
+      padding: 10px 12px;
+      background: #eefaf4;
+      color: #214f38;
+      margin-bottom: 18px;
+    }
+    .status {
+      min-height: 22px;
+      color: var(--green);
+      font-size: 13px;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Amazon SellerSprite MCP Skill Python Toolbox</h1>
+    <p>Python + HTML 辅助入口，保留原 PowerShell 脚本作为备份与兼容方案。</p>
+  </header>
+  <main>
+    <div class="note">
+      先在仓库根目录运行命令。Windows 如未配置 PATH，可把 <code>python</code> 替换为实际解释器路径，例如 <code>%LOCALAPPDATA%\Python\pythoncore-3.14-64\python.exe</code>。
+    </div>
+    <div class="grid">
+      <section>
+        <h2>完整包检查</h2>
+        <p>执行脱敏扫描、必需文件检查、Excel XML 完整性检查。</p>
+        <div class="cmd-head"><strong>命令</strong><button data-copy="python scripts/python/sellersprite_skill_tools.py check-package">复制</button></div>
+        <pre>python scripts/python/sellersprite_skill_tools.py check-package</pre>
+      </section>
+      <section>
+        <h2>敏感信息扫描</h2>
+        <p>扫描 API key、GitHub token、真实 secret URL、本地路径、真实 ASIN 样式。</p>
+        <div class="cmd-head"><strong>命令</strong><button data-copy="python scripts/python/sellersprite_skill_tools.py scan-sensitive">复制</button></div>
+        <pre>python scripts/python/sellersprite_skill_tools.py scan-sensitive</pre>
+      </section>
+      <section>
+        <h2>运行配置检查</h2>
+        <p>检查 `.env`、环境变量和 `.mcp.json` 是否已配置，不打印真实 key。</p>
+        <div class="cmd-head"><strong>命令</strong><button data-copy="python scripts/python/sellersprite_skill_tools.py check-runtime-config --strict">复制</button></div>
+        <pre>python scripts/python/sellersprite_skill_tools.py check-runtime-config --strict</pre>
+      </section>
+      <section>
+        <h2>Skill 逻辑检查</h2>
+        <p>检查所有 open-source skill 是否包含凭证预检、SellerSprite MCP 与 Gemini/GLM key 处理说明。</p>
+        <div class="cmd-head"><strong>命令</strong><button data-copy="python scripts/python/sellersprite_skill_tools.py test-open-source-skills">复制</button></div>
+        <pre>python scripts/python/sellersprite_skill_tools.py test-open-source-skills</pre>
+      </section>
+      <section>
+        <h2>安装到 Codex</h2>
+        <p>把 `skills/` 复制到当前用户的 `.codex/skills`。</p>
+        <div class="cmd-head"><strong>命令</strong><button data-copy="python scripts/python/sellersprite_skill_tools.py install-skill --target codex">复制</button></div>
+        <pre>python scripts/python/sellersprite_skill_tools.py install-skill --target codex</pre>
+      </section>
+      <section>
+        <h2>发布到 GitHub</h2>
+        <p>使用 GitHub Contents API 更新仓库；需要当前 shell 临时设置 `GITHUB_TOKEN`。</p>
+        <div class="cmd-head"><strong>命令</strong><button data-copy="python scripts/python/sellersprite_skill_tools.py publish-github-api --repo-name amazon-sellersprite-research-MCP-skill">复制</button></div>
+        <pre>python scripts/python/sellersprite_skill_tools.py publish-github-api --repo-name amazon-sellersprite-research-MCP-skill</pre>
+      </section>
+    </div>
+    <p class="status" id="status"></p>
+  </main>
+  <script>
+    const status = document.getElementById("status");
+    document.querySelectorAll("button[data-copy]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const text = button.getAttribute("data-copy");
+        try {
+          await navigator.clipboard.writeText(text);
+          status.textContent = "已复制命令";
+        } catch {
+          status.textContent = "当前浏览器不允许自动复制，请手动选择命令";
+        }
+      });
+    });
+  </script>
+</body>
+</html>
