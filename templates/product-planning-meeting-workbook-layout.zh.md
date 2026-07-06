@@ -1,16 +1,24 @@
-# Product Planning Meeting Workbook Template
+# Product Planning Meeting Workbook Template V1
 
 本模板用于 `/product-planning "{PRODUCT_IDEA}" {SITE}` 输出产品立项会议版 Excel。
 
+## 版本确认
+
+- 标准版本：`Product Planning Standard Template V1`
+- 确认日期：`2026-07-06`
+- 标准工作簿：`templates/product_planning_standard_template_V1.xlsx`
+- 适用命令：`/product-planning "{PRODUCT_IDEA}" {SITE}`
+- 标准范围：保留 `意向产品`、`市场分析`、`竞品分析与优化策略`、`SWOT分析`、`ABA排名【季度】`、`MCP原始数据`、`数据来源`；默认删除 `成本试算` 和 `销售计划`。
+
 ## 模板文件
 
-- `templates/product_planning_meeting_template.xlsx`
+- `templates/product_planning_standard_template_V1.xlsx`
 
 ## Sheet 顺序
 
 1. `意向产品`
 2. `市场分析`
-3. `竟品分析与优化策略`
+3. `竞品分析与优化策略`
 4. `SWOT分析`
 5. `ABA排名【季度】`
 6. `MCP原始数据`
@@ -80,6 +88,86 @@
 - 点评必须转成产品决策语言，例如：进入/观察、主攻价格带、避开高壁垒区间、先做小样验证、需要供应链补数。
 - MCP 返回空字段时写 `N/A`，并在 `数据来源` Sheet 标注缺口和对结论的影响。
 - 如果某个 MCP 接口不可用，只能在该维度标注“接口不可用/数据缺口”，不得用猜测数据补图。
+
+## 第三 Sheet：竞品分析与优化策略
+
+第三 Sheet 用于把“竞品是谁、为什么能卖、用户哪里不满意、我们怎么改”串成产品动作。必须先经过 `competitor_lookup` 或 `product_research` 生成候选池，再按标题相关性、类目节点和价格/评分/评论数筛掉噪声商品。
+
+### 版式
+
+1. 顶部：产品方向 + 竞品池口径说明。
+2. 代表竞品表：ASIN、品牌、标题、售价、评分、评分数、履约、上架时间、角色、产品经理动作。
+3. 图表：竞品售价/评分数或评分数/评分值对比，用于判断价格带和评论壁垒。
+4. VOC-优化矩阵：竞品类型、已验证卖点、低星痛点、优化策略、优先级。
+5. 产品经理结论：3 条以内，必须落到样品验证、Listing 表达、广告/定价动作。
+
+### MCP 数据映射
+
+| 内容 | 必调/优先 MCP 接口 | 填写规则 |
+|---|---|---|
+| 竞品池 | `competitor_lookup`, `product_research` | 只收录标题和类目节点高度相关的商品 |
+| 竞品详情 | `asin_detail` | 用于标题、品牌、价格、评分、评分数、LQS、前端卖点 |
+| 正向卖点 | `asin_detail.features`, `review` 4-5 星 | 只写前端明示或高星评论确认过的卖点 |
+| 负向痛点 | `review` 1-3 星 | 只写低星评论中可转为产品需求的痛点 |
+| 优化动作 | 由竞品+评论证据推导 | 必须写成可执行动作，例如结构加强、防刮、避让接口、说明边界 |
+
+## 第四 Sheet：SWOT分析
+
+SWOT 不是泛泛写优劣势，而是对前面 Sheet 的证据做决策归纳。每一条必须能追溯到关键词、市场分布、竞品、评论、趋势或明确的数据缺口。
+
+### 版式
+
+1. 2x2 SWOT 矩阵：
+   - S：已被 MCP/前端/VOC 支撑的优势。
+   - W：当前数据缺口、供应链验证缺口、产品短板。
+   - O：关键词机会、价格带机会、评论痛点机会。
+   - T：评论壁垒、品牌/知识产权、流量集中度、竞品低价威胁。
+2. 决策门槛表：
+   - 需求
+   - 竞争
+   - 差异化
+   - 数据完整性
+   - 进入结论
+3. 每个门槛必须包含：状态、证据、下一步动作。
+
+### MCP 数据映射
+
+| SWOT 模块 | 证据来源 |
+|---|---|
+| S 优势 | `keyword_miner` 购买率/搜索量、`market_price_distribution` 主力价格带、`review` 好评、`asin_detail.features` |
+| W 劣势 | `dataGaps`、MCP 空字段、样品/供应链未验证项 |
+| O 机会 | `review` 低星痛点、`market_listing_trend_distribution` 新品供给变化、`market_rating_distribution` 质量缺口 |
+| T 威胁 | `market_ratings_count_distribution` 评论壁垒、`monopolyClickRate` 点击集中度、`trademark_*` 合规风险 |
+
+## 第五 Sheet：ABA排名【季度】
+
+第五 Sheet 用于把关键词从“能不能做”拆到“先打哪些词、怎么打、哪些词先观察”。它不是简单关键词列表，而是关键词分层和投放动作页。
+
+### 版式
+
+1. 关键词主表：关键词、搜索量、购买量、购买率、均价、商品数、PPC、供需比、点击集中度、SPR、角色、处理建议。
+2. 图表一：关键词搜索量/购买量，判断量级。
+3. 图表二：供需比/点击集中度，判断竞争与垄断。
+4. ABA 趋势表：按月或按季度放核心词趋势。
+5. ABA 趋势图：用于判断需求是否稳定、增长或回落。
+6. 产品经理点评：宽词/长尾词/精准广告/否词/待补数据。
+
+### MCP 数据映射
+
+| 内容 | 必调/优先 MCP 接口 | 填写规则 |
+|---|---|---|
+| 关键词主表 | `keyword_miner` | 必须保留搜索量、购买量、购买率、PPC、商品数、供需比、点击集中度、SPR |
+| 趋势 | `aba_research_trend`, `keyword_research_trends` | 趋势字段为空时写 N/A，不画假趋势 |
+| 竞品反查词 | `keyword_order`, `traffic_keyword`, `traffic_source` | 用于确认竞品真实转化词；接口失败则写入数据缺口 |
+| 处理建议 | 由关键词指标推导 | 宽词、核心长尾、精准词、观察词要分层，不要混成同一类 |
+
+## 第六/第七 Sheet：MCP原始数据 与 数据来源
+
+默认会议版仍保留这两张审计页，位置在 `ABA排名【季度】` 之后。
+
+- `MCP原始数据`：只保存脱敏后的 compact 字段，不保存 API key、token、secret-key URL、本地路径或完整隐私 raw。
+- `数据来源`：记录每个 Sheet 用到的 MCP 工具、入参摘要、可用字段、缺口和处理方式。
+- 如果某个接口失败，例如凭证、网络、字段为空，必须记录失败原因，不允许用经验值补齐。
 
 ## 默认不包含
 
