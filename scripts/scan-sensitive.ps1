@@ -17,7 +17,7 @@ $patterns = @(
     @{ Label = "Real-looking ASIN"; Regex = "\bB0[A-Z0-9]{8}\b" }
 )
 
-$excludeDirs = @(".git", "node_modules")
+$excludeDirs = @(".git", "node_modules", "__pycache__")
 $files = Get-ChildItem -Path $Path -Recurse -File | Where-Object {
     $full = $_.FullName
     -not ($excludeDirs | Where-Object { $full -like "*\$_\*" })
