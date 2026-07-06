@@ -17,10 +17,11 @@ This workflow may send report summaries to third-party model providers for evalu
 
 ## Pre-Publish Check
 
-Run:
+Recommended check:
 
-```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\scan-sensitive.ps1
+```bash
+python scripts/python/sellersprite_skill_tools.py check-package
+python scripts/python/sellersprite_skill_tools.py scan-sensitive
 ```
 
-Manually inspect the result before publishing.
+Manually inspect the result before publishing. Do not commit `__pycache__/`, `.pyc`, `.env`, `.mcp.json`, raw data folders, or generated private reports.
