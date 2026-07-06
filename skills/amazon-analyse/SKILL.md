@@ -105,7 +105,7 @@ When Gemini/GLM keys and network are available, use them as judges. Otherwise wr
 
 ## Optional Excel Output Prompt
 
-After the Markdown report has been saved, ask the user:
+After the Markdown report has been saved, ask the user in the chat/front-end response only:
 
 ```text
 是否需要转换为Excel表格输出？
@@ -119,6 +119,7 @@ Offer:
 Hard rule:
 
 - Always preserve the Markdown report regardless of whether Excel conversion is requested.
+- Do not append this Excel conversion prompt to the Markdown report body. It is a UI/chat prompt, not report content.
 - If Excel is generated, return both paths: Markdown report and Excel workbook.
 - If Excel is generated, add a `MCP原始数据` sheet that contains the report's raw MCP files or compact raw JSON payloads. Redact secrets, tokens, local absolute paths, and any user-private credentials before writing the sheet.
 
