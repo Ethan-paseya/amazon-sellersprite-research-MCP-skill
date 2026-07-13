@@ -100,7 +100,7 @@
 - 点评必须转成产品决策语言，例如：进入/观察、主攻价格带、避开高壁垒区间、先做小样验证、需要供应链补数。
 - MCP 返回空字段时写 `N/A`，并在 `数据来源` Sheet 标注缺口和对结论的影响。
 - 如果某个 MCP 接口不可用，只能在该维度标注“接口不可用/数据缺口”，不得用猜测数据补图。
-- 市场分析数据只能来自最终选择的类目节点：优先使用 `Camera Mounts & Clamps` 叶子节点，也可在叶子数据不足时使用其直接父节点 `Tripod & Monopod Accessories`。`market_product_demand_trend` 某月份为空时应先调整月份参数重试；销售表通过同一节点连续 12 个月的 `market_research_statistics` 填入 `avgUnits`、`avgRevenue`、`avgBsr`，不得用 ASIN 聚合替代类目数据。
+- 市场分析数据只能来自最终锁定的主类目节点。优先使用重复出现且与产品形态直接一致的最深叶子节点；仅当叶子节点接口数据不足且其直接父节点未明显扩大购买意图时，才允许回退到直接父节点，并在 `数据来源` 中记录原因。`market_product_demand_trend` 某月份为空时应先按官方参数调整月份重试；销售表通过同一节点连续 12 个月的 `market_research_statistics` 填入 `avgUnits`、`avgRevenue`、`avgBsr`，不得用 ASIN 聚合替代类目数据。
 - 关键词区域必须写入 `keyword_miner.keywordList` 的真实返回值；模板令牌、空关键词和全 0 占位行必须在交付前清除，未返回词写 `N/A（精确查询未返回）`。
 
 ## 第三 Sheet：竞品分析与优化策略
