@@ -11,7 +11,7 @@ This repository contains sanitized Amazon research skills and templates for Sell
 | `keyword-research` | `/keyword-research {ASIN} {SITE}` |
 | `review-analysis` | `/review-analysis {ASIN} {SITE}` |
 | `product-research` | `/product-research "{PRODUCT_KEYWORD}" {SITE}` |
-| `product-planning` | `/product-planning "{PRODUCT_IDEA}" {SITE}` |
+| `product-planning` | `/product-planning "{ASIN1;ASIN2;ASIN3}" {SITE}` |
 
 ## Rules
 
@@ -51,7 +51,8 @@ For `/amazon-analyse {ASIN} {SITE}` only:
 4. ask whether Excel is needed;
 5. if yes, generate Excel while preserving Markdown and include the `MCP原始数据` sheet.
 
-For `/product-planning "{PRODUCT_IDEA}" {SITE}` default V1 Excel:
+For `/product-planning "{ASIN1;ASIN2;ASIN3}" {SITE}` default V1 Excel:
 
 1. use the sheet order `意向产品` → `市场分析` → `竞品分析与优化策略` → `SWOT分析` → `ABA排名【季度】` → `MCP原始数据` → `数据来源`;
 2. do not include `成本试算` or `销售计划` unless the user explicitly asks and provides assumptions.
+3. validate the three seed ASINs with `asin_detail`, infer the product direction from their shared evidence, and retain the three seeds plus at most one validated system supplement in the competitor sheet.

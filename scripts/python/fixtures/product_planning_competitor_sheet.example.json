@@ -1,0 +1,34 @@
+{
+  "productIdea": "{{PRODUCT_IDEA}}",
+  "competitorSheet": {
+    "selectedCompetitors": [
+      {
+        "asin": "{{ASIN_1}}",
+        "validated": true,
+        "relevant": true,
+        "detailSource": "asin_detail",
+        "brand": "{{BRAND_1}}",
+        "title": "{{TITLE_1}}",
+        "price": 0,
+        "rating": 0,
+        "ratingCount": 0,
+        "fulfillment": "{{FULFILLMENT_1}}",
+        "availableDate": "{{AVAILABLE_DATE_1}}",
+        "nodeIdPath": "{{NODE_ID_PATH}}",
+        "features": ["{{FRONTEND_OR_ASIN_DETAIL_FEATURE}}"],
+        "positiveReviews": ["{{FOUR_TO_FIVE_STAR_EVIDENCE}}"],
+        "lowStarPainPoints": ["{{ONE_TO_THREE_STAR_PAIN_POINT}}"],
+        "productManagerAction": "{{PRODUCT_MANAGER_ACTION}}",
+        "optimizationStrategy": "{{OPTIMIZATION_STRATEGY}}",
+        "priority": "P0",
+        "relevanceScore": 1
+      }
+    ],
+    "candidateCompetitors": [],
+    "conclusions": [
+      "{{EVIDENCE_BACKED_SAMPLE_VALIDATION_CONCLUSION}}",
+      "{{EVIDENCE_BACKED_LISTING_CONCLUSION}}",
+      "{{EVIDENCE_BACKED_PRICING_OR_ADS_CONCLUSION}}"
+    ]
+  }
+}

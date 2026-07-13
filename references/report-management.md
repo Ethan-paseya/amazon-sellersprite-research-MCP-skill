@@ -10,7 +10,7 @@ category-reports/{CATEGORY}_{SITE}_{YYYYMMDD}/
 keyword-reports/{ASIN}_{SITE}_{YYYYMMDD}/
 review-analysis-reports/{ASIN}_{SITE}_{YYYYMMDD}/
 product-research-reports/{PRODUCT_KEYWORD}_{SITE}_{YYYYMMDD}/
-product-planning-reports/{PRODUCT_IDEA}_{SITE}_{YYYYMMDD}/
+product-planning-reports/{ASIN1}_{ASIN2}_{ASIN3}_{SITE}_{YYYYMMDD}/
 ```
 
 ## Common Files

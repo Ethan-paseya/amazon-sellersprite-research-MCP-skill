@@ -1,56 +1,54 @@
-# Product Planning Workflow
+# Product-Planning V1 Workbook Workflow
 
-This workflow is distilled from a mature product initiation workbook. Keep it evidence-led and reusable.
+本文件定义 V1 会议版工作簿的业务职责。完整的数据采集、统一证据对象和质量门禁见 `integrated-workflow.zh.md`。
 
-## Planning Workbook Tabs
+## 固定 Sheet 顺序
 
-| Tab | Purpose | Required Content |
+| Sheet | 业务问题 | 主要证据 |
 |---|---|---|
-| `意向产品` | Define what will be launched | category, product idea, reference image placeholder, price positioning, customer group, functions, unmet needs, material, packaging, color/style, target purchase cost, target selling price, target margin, launch month, first batch |
-| `市场分析` | Decide whether the category deserves entry | sales trend, seasonality, listing age distribution, rating/review distribution, price band, brand concentration, keyword trend, market summary |
-| `竞品分析与优化策略` | Convert competitor evidence into product actions | representative ASINs, brand, price, sales, listing selling points, positive review keywords, negative review pain points, benchmark direction |
-| `SWOT分析` | Convert evidence into decision logic | strengths from internal capability, weaknesses/gaps, market opportunities, threats/failure modes |
-| `ABA排名【季度】` | Build keyword and traffic logic | keyword, monthly search volume, monthly purchases, product count, average price, PPC, supply-demand ratio, click concentration, SellerSprite rank, strategic note |
-| `成本试算` | Test financial feasibility | exchange rate, procurement cost, size, weight, chargeable weight, site price, commission, FBA/fulfillment, first-leg freight, refund/defect rate, ad ratio, gross margin, gross profit |
-| `销售计划` | Commit to launch assumptions | logistics method, lifecycle stage, price stage, first three month units, revenue, profit, margin, launch action |
-| `数据来源` | Preserve audit trail | MCP tools/files, source report, manual assumption list, calculation notes, data gaps |
+| `意向产品` | 要做什么、面向谁、解决什么场景 | 三款种子共同功能/场景/用户、第一款 ASIN 前端主图 |
+| `市场分析` | 目标类目是否值得进入 | 已锁定类目节点的 12 月趋势、关键词和各类分布 |
+| `竞品分析与优化策略` | 四款竞品的壁垒、痛点和可执行差异化 | `asin_detail`、Listing 前端、4-5 星和 1-3 星评论 |
+| `SWOT分析` | 证据如何转化为机会与风险 | 前三 Sheet 的证据重组 |
+| `ABA排名【季度】` | 关键词与流量切入顺序 | ABA、关键词和流量工具实际返回 |
+| `MCP原始数据` | 报告能否审计 | 脱敏后的紧凑 MCP 返回与聚合表 |
+| `数据来源` | 每条数据如何回查 | 工具、口径、查询时间、采用状态、缺口、证据 ID |
 
-## Evidence Rules
+默认不生成 `成本试算` 和 `销售计划`。只有用户明确要求且提供采购、物流、广告、退款或销量假设时，才作为可选扩展追加。
 
-- Market conclusions must cite market, keyword, or competitor data.
-- Competitor product actions must cite listing points, positive reviews, or negative reviews.
-- Cost conclusions must cite cost assumptions, formulas, or manually supplied numbers.
-- If data is missing, write `N/A` and add a gap note; do not fill with plausible-looking numbers.
-- For SellerSprite MCP execution details, read `product-planning-mcp-flow.zh.md`.
+## Sheet 生成规则
 
-## MCP Tool Sequence
+### 意向产品
 
-| Stage | Required MCP tools | Decision rule |
-|---|---|---|
-| Category discovery | `product_node` | Select a relevant `nodeIdPath`; record missing node names as a data gap |
-| Keyword demand | `keyword_miner`, `keyword_research`, `keyword_research_trends` | Keep only relevant keywords with usable demand/competition fields |
-| Competitor pool | `competitor_lookup`, `product_research` | Filter noisy results by title relevance and category node |
-| Competitor detail | `asin_detail`, optional `asin_sales_trend` | Use price, rating, ratings, fulfillment, LQS, node path as benchmark evidence |
-| VOC | `review` | Extract pain points only from review evidence |
-| Category validation | `market_research_statistics`, `market_product_demand_trend`, `market_price_distribution`, `market_rating_distribution`, concentration/distribution tools | Treat empty fields as data gaps |
-| ABA/traffic | `keyword_order`, `traffic_keyword_stat`, `traffic_keyword`, `traffic_source`, `aba_research_monthly`, `aba_research_weekly` | Use available fields; do not infer absent traffic shares |
-| Risk supplement | `google_trend`, `trademark_*` | Use only as auxiliary evidence; if empty, mark as gap |
+- 产品方向由三款已验证种子的共同证据推导。
+- 第一款种子 ASIN 是参考图基准；主图只能来自已核验 Amazon 前端。
+- 价格定位可以引用市场价格带，采购成本和利润不得推断。
 
-## Recommended Decision Gates
+### 市场分析
 
-| Gate | Pass Signal | Hold/Reject Signal |
-|---|---|---|
-| Demand | Core and long-tail keywords show enough search/purchase demand | demand exists only in unrelated keywords |
-| Competition | Review moat is breakable or niche entry point exists | top listings own traffic and reviews with no clear gap |
-| Differentiation | At least one pain point can be solved visibly | product is only a copy of winning listings |
-| Profit | Target margin remains acceptable after ad/refund/logistics | profit depends on unrealistic CPC, refund, or freight assumptions |
-| Supply Chain | Existing supplier/process can support sampling and QC | unverified material, safety, patent, or compliance risk blocks launch |
-| Launch Timing | seasonality supports first 90 days | launch window starts in demand trough without budget buffer |
+- 类目来自竞品 `nodeIdPath` 的交叉筛选结果。
+- 只使用目标叶子节点或经“不过宽”校验的最小父节点。
+- 12 月趋势使用 `market_research_statistics` 的节点级字段。
+- 空接口允许按官方参数规则重试；重试仍为空时写 `N/A` 和数据缺口。
+- 图表至少覆盖销量趋势、关键词、上架时间、上架年份、评分数、评分值和价格区间。
 
-## Output Style
+### 竞品分析与优化策略
 
-- Start with a one-page decision summary.
-- Put calculations and assumptions in tables.
-- Use P0/P1/P2 action priority.
-- Keep the final decision explicit: `进入`, `观察`, or `放弃`.
-- Preserve Markdown as the main report and use Excel as the operating workbook.
+- 固定三款用户种子加一款系统补充样本。
+- 第四款补齐头部评价、低价冲击或高配差异化之一。
+- 卖点只能引用 Listing、`asin_detail.features` 或 4-5 星评论。
+- 痛点只能引用 1-3 星评论；样本不足必须标注。
+- 产品经理结论不超过三条，并引用证据 ID。
+
+### SWOT 与 ABA
+
+- SWOT 不能新增未取证事实。
+- ABA 和关键词表不填零值假占位；接口未返回写 `N/A`。
+
+## 审计规则
+
+- Markdown 与 Excel 均从同一份 `evidence.json` 生成。
+- 每个关键结论、图表和决策门禁必须能回查 `evidenceId`。
+- 正式渲染前运行 Python 规则校验。
+- Excel 输出后执行占位符扫描、图表范围检查和 Office XML 完整性检查。
+- 真实 Gemini/GLM 验证只接收脱敏摘要，模型建议不能替代 MCP 事实。

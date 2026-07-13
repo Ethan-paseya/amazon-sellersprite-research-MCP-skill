@@ -109,6 +109,7 @@ REQUIRED_FILES = (
     "templates/product-planning-meeting-workbook-layout.zh.md",
     "templates/product-planning-workbook-layout.md",
     "templates/amazon_single_product_meeting_template.xlsx",
+    "templates/product_planning_standard_template_V1_beautified.xlsx",
     "templates/product_planning_standard_template_V1.xlsx",
     "templates/product_planning_standard_template_V1_manifest.json",
     "reports/README.md",
@@ -288,7 +289,11 @@ def check_package(path: str | Path = ".") -> int:
         return 1
 
     print("Checking Excel template packages...")
-    for item in ("templates/amazon_single_product_meeting_template.xlsx", "templates/product_planning_standard_template_V1.xlsx"):
+    for item in (
+        "templates/amazon_single_product_meeting_template.xlsx",
+        "templates/product_planning_standard_template_V1_beautified.xlsx",
+        "templates/product_planning_standard_template_V1.xlsx",
+    ):
         validate_xlsx_xml(root / item)
 
     print("Package check passed.")

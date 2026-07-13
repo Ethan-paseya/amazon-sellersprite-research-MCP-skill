@@ -1,6 +1,6 @@
 # Product Planning MCP 调用流程
 
-本文档定义 `/product-planning "{PRODUCT_IDEA}" {SITE}` 的证据采集顺序、MCP 工具选择和输出口径。
+本文档定义 `/product-planning "{ASIN1;ASIN2;ASIN3}" {SITE}` 的证据采集顺序、MCP 工具选择和输出口径。先校验三款种子 ASIN，再从其共同证据推导 `{DERIVED_PRODUCT_DIRECTION}`。
 
 ## 1. 总体原则
 
@@ -37,7 +37,7 @@
   "tool": "product_node",
   "request": {
     "marketplace": "{SITE}",
-    "keyword": "{PRODUCT_IDEA}",
+    "keyword": "{DERIVED_PRODUCT_DIRECTION}",
     "returnFields": "nodeIdPath,nodeName,path,products"
   }
 }
@@ -57,7 +57,7 @@
   "tool": "keyword_miner",
   "request": {
     "marketplace": "{SITE}",
-    "keyword": "{PRODUCT_IDEA}",
+    "keyword": "{DERIVED_PRODUCT_DIRECTION}",
     "page": 1,
     "size": 20,
     "returnFields": "keyword,searches,purchases,bid,products,supplyDemandRatio,monopolyClickRate,titleDensity,relevancy"
@@ -79,7 +79,7 @@
   "tool": "competitor_lookup",
   "request": {
     "marketplace": "{SITE}",
-    "keyword": "{PRODUCT_IDEA}",
+    "keyword": "{DERIVED_PRODUCT_DIRECTION}",
     "matchType": 1,
     "variation": "Y",
     "page": 1,
@@ -95,7 +95,7 @@
   "tool": "product_research",
   "request": {
     "marketplace": "{SITE}",
-    "keyword": "{PRODUCT_IDEA}",
+    "keyword": "{DERIVED_PRODUCT_DIRECTION}",
     "variation": "Y",
     "page": 1,
     "size": 20
