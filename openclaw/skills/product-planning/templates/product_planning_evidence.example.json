@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "1.0",
+  "command": {
+    "site": "US",
+    "seedAsins": ["{SEED_ASIN_1}", "{SEED_ASIN_2}", "{SEED_ASIN_3}"],
+    "systemSupplement": "{SYSTEM_ASIN_4}"
+  },
+  "queryManifest": {
+    "marketplace": "US",
+    "analysisMonth": "202607",
+    "lastCompleteMonth": "202606",
+    "trendMonths": ["202508", "202509", "202510", "202511", "202512", "202601", "202602", "202603", "202604", "202605", "202606", "202607"],
+    "topN": 100,
+    "newProductMonths": 6,
+    "selectedNodeIdPath": "{NODE_ID_PATH}"
+  },
+  "productDirection": {
+    "name": "{DERIVED_PRODUCT_DIRECTION}",
+    "evidenceIds": ["CMP-001", "CMP-002", "CMP-003"]
+  },
+  "competitors": [
+    {"asin": "{SEED_ASIN_1}", "source": "user", "validation": "PASS", "nodeIdPath": "{NODE_ID_PATH}", "evidenceIds": ["CMP-001"]},
+    {"asin": "{SEED_ASIN_2}", "source": "user", "validation": "PASS", "nodeIdPath": "{NODE_ID_PATH}", "evidenceIds": ["CMP-002"]},
+    {"asin": "{SEED_ASIN_3}", "source": "user", "validation": "PASS", "nodeIdPath": "{ADJACENT_NODE_ID_PATH}", "evidenceIds": ["CMP-003"]},
+    {"asin": "{SYSTEM_ASIN_4}", "source": "system", "validation": "PASS", "role": "premium-differentiation", "nodeIdPath": "{NODE_ID_PATH}", "evidenceIds": ["CMP-004"]}
+  ],
+  "categorySelection": {
+    "selected": {
+      "nodeIdPath": "{NODE_ID_PATH}",
+      "labelPath": "{CATEGORY_LABEL_PATH}",
+      "level": "leaf",
+      "coverage": 0.75,
+      "relevance": "PASS",
+      "reason": "最深重复节点且与产品形态直接一致",
+      "evidenceIds": ["CMP-001", "CMP-002", "CMP-004"]
+    },
+    "candidates": [
+      {"nodeIdPath": "{NODE_ID_PATH}", "coverage": 0.75, "relevance": "PASS"},
+      {"nodeIdPath": "{PARENT_NODE_ID_PATH}", "coverage": 1.0, "relevance": "WARN"}
+    ],
+    "rejected": [
+      {"nodeIdPath": "{PARENT_NODE_ID_PATH}", "reason": "父节点购买意图过宽"}
+    ],
+    "adjacentNodes": ["{ADJACENT_NODE_ID_PATH}"]
+  },
+  "market": {
+    "monthlyTrend": [
+      {"month": "202508", "avgUnits": 10, "avgRevenue": 1000, "avgBsr": 100000, "evidenceId": "MKT-202508"},
+      {"month": "202509", "avgUnits": 11, "avgRevenue": 1100, "avgBsr": 99000, "evidenceId": "MKT-202509"},
+      {"month": "202510", "avgUnits": 12, "avgRevenue": 1200, "avgBsr": 98000, "evidenceId": "MKT-202510"},
+      {"month": "202511", "avgUnits": 13, "avgRevenue": 1300, "avgBsr": 97000, "evidenceId": "MKT-202511"},
+      {"month": "202512", "avgUnits": 14, "avgRevenue": 1400, "avgBsr": 96000, "evidenceId": "MKT-202512"},
+      {"month": "202601", "avgUnits": 15, "avgRevenue": 1500, "avgBsr": 95000, "evidenceId": "MKT-202601"},
+      {"month": "202602", "avgUnits": 16, "avgRevenue": 1600, "avgBsr": 94000, "evidenceId": "MKT-202602"},
+      {"month": "202603", "avgUnits": 17, "avgRevenue": 1700, "avgBsr": 93000, "evidenceId": "MKT-202603"},
+      {"month": "202604", "avgUnits": 18, "avgRevenue": 1800, "avgBsr": 92000, "evidenceId": "MKT-202604"},
+      {"month": "202605", "avgUnits": 19, "avgRevenue": 1900, "avgBsr": 91000, "evidenceId": "MKT-202605"},
+      {"month": "202606", "avgUnits": 20, "avgRevenue": 2000, "avgBsr": 90000, "evidenceId": "MKT-202606"},
+      {"month": "202607", "avgUnits": 21, "avgRevenue": 2100, "avgBsr": 89000, "evidenceId": "MKT-202607", "partial": true}
+    ],
+    "distributions": {
+      "price": {"month": "202607", "items": [{"label": "0-20", "count": 60, "share": 0.6}, {"label": "20+", "count": 40, "share": 0.4}]},
+      "rating": {"month": "202607", "items": [{"label": "4.0-4.5", "count": 40, "share": 0.4}, {"label": "4.5+", "count": 60, "share": 0.6}]},
+      "ratingCount": {"month": "202607", "items": [{"label": "0-100", "count": 50, "share": 0.5}, {"label": "100+", "count": 50, "share": 0.5}]},
+      "listingAge": {"month": "202606", "fallbackReason": "当前月份接口分布异常，采用最近完整月份", "items": [{"label": "0-1 year", "count": 30, "share": 0.3}, {"label": "1+ years", "count": 70, "share": 0.7}]}
+    }
+  },
+  "keywords": {
+    "requestedCount": 3,
+    "returnedCount": 2,
+    "items": [
+      {"keyword": "{CORE_KEYWORD}", "searches": 1000, "purchases": 50, "ppc": 1.2, "products": 800, "evidenceId": "KW-001"},
+      {"keyword": "{LONG_TAIL_KEYWORD}", "searches": 300, "purchases": 20, "ppc": 0.8, "products": 200, "evidenceId": "KW-002"}
+    ],
+    "missing": ["{UNRETURNED_KEYWORD}"]
+  },
+  "voc": {
+    "minimumPositiveSamples": 10,
+    "minimumNegativeSamples": 10,
+    "competitors": [
+      {"asin": "{SEED_ASIN_1}", "positiveCount": 20, "negativeCount": 12, "evidenceIds": ["VOC-001"]},
+      {"asin": "{SEED_ASIN_2}", "positiveCount": 15, "negativeCount": 8, "negativeInterpretation": "sample_insufficient", "evidenceIds": ["VOC-002"]}
+    ]
+  },
+  "dataSources": [
+    {"evidenceId": "CMP-001", "tool": "asin_detail", "status": "adopted"},
+    {"evidenceId": "MKT-202607", "tool": "market_research_statistics", "status": "adopted"},
+    {"evidenceId": "KW-001", "tool": "keyword_miner", "status": "adopted"}
+  ],
+  "dataGaps": [
+    {"field": "keyword", "description": "一个精确关键词未返回", "impact": "关键词覆盖率不足", "handling": "保留缺口，不补值"}
+  ],
+  "decision": {
+    "status": "观察",
+    "gates": [
+      {"name": "需求", "status": "PASS", "evidenceIds": ["MKT-202606", "KW-001"]},
+      {"name": "竞争", "status": "WARN", "evidenceIds": ["CMP-001", "CMP-004"]}
+    ],
+    "actions": [
+      {"priority": "P0", "action": "验证关键兼容性和承重边界", "evidenceIds": ["VOC-001"]},
+      {"priority": "P1", "action": "用可视化场景表达核心卖点", "evidenceIds": ["CMP-001", "KW-001"]},
+      {"priority": "P2", "action": "测试目标价格带和核心词投放", "evidenceIds": ["KW-001", "MKT-202607"]}
+    ]
+  },
+  "render": {
+    "sheetOrder": ["意向产品", "市场分析", "竞品分析与优化策略", "SWOT分析", "ABA排名【季度】", "MCP原始数据", "数据来源"],
+    "markdownTitle": "{REPORT_TITLE}",
+    "workbookTitle": "{REPORT_TITLE}"
+  }
+}

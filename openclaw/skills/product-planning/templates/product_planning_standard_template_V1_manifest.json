@@ -1,0 +1,49 @@
+{
+  "name": "product-planning 标准化模板",
+  "templateVersion": "V1.3-data-driven-manual-aba",
+  "confirmedAt": "2026-07-16",
+  "workbook": "product_planning_standard_template_V1_data_driven.xlsx",
+  "fallbackWorkbook": "product_planning_standard_template_V1_beautified.xlsx",
+  "legacyWorkbook": "product_planning_standard_template_V1.xlsx",
+  "renderer": "scripts/python/render_product_planning_v1.py",
+  "templateBuilder": "scripts/python/build_product_planning_data_driven_template.py",
+  "preferred": true,
+  "layoutSpec": "product-planning-meeting-workbook-layout.zh.md",
+  "command": "/product-planning \"{ASIN1;ASIN2;ASIN3}\" {SITE}",
+  "sheetOrder": [
+    "意向产品",
+    "市场分析",
+    "竞品分析与优化策略",
+    "SWOT分析",
+    "ABA排名【季度】",
+    "MCP原始数据",
+    "数据来源"
+  ],
+  "defaultScope": "不包含成本试算和销售计划；如用户明确要求并提供成本/销量假设，才单独追加。",
+  "evidenceRule": "所有结论必须由 SellerSprite MCP、Amazon 前端、已有源报告或用户提供假设支撑；MCP 没有返回的数据必须写 N/A 或数据缺口，不允许凭空补数。",
+  "excelOutputRule": "后续生成 Excel 时必须保留 Markdown 报告，并将 MCP 原始/聚合数据输出到工作簿的 MCP原始数据 与 数据来源 Sheet。",
+  "validationRule": "报告完成后按可用密钥执行 Gemini + GLM 脱敏交叉验证；验证输入只发送脱敏摘要，不发送 API key、token、本地路径或 raw 文件名。",
+  "marketCategoryRule": "Derive candidate paths from all validated competitor nodeIdPath values. Prefer the deepest repeated and functionally relevant leaf node. Use a majority common parent only when it is not overbroad; otherwise retain the relevant leaf and record adjacent categories plus the rejection reason.",
+  "competitorSheet": {
+    "userInput": "The command provides exactly three semicolon-separated seed ASINs. Do not ask for the same ASINs again; optional context is collected in chat only.",
+    "validation": "Each user ASIN must pass asin_detail existence, marketplace, title relevance, and node relevance checks. Reject duplicates and invalid ASINs.",
+    "sampleCount": 4,
+    "systemSupplement": "Use competitor_lookup/product_research plus asin_detail to add one necessary sample that fills a missing head-review, low-price, or premium-differentiation dimension. Use N/A with a data gap if no candidate passes.",
+    "layout": "Three-seed comparison table, differentiation-signal comparison table, and four vertical competitor cards. The fourth card is the validated system supplement or N/A.",
+    "imageRule": "Use the first seed ASIN's verified Amazon frontend main image for the 意向产品 reference-image field. Record it as a frontend snapshot in 数据来源; keep N/A when the page or image cannot be verified.",
+    "evidence": "Features require frontend or asin_detail.features plus 4-5 star review evidence; pain points require 1-3 star review evidence.",
+    "conclusion": "At most three evidence-backed actions covering sample validation, listing expression, and pricing or advertising."
+  },
+  "intentSheetStyle": {
+    "verifiedFunctions": "功能一至功能四，灰底红字",
+    "unmetNeeds": "功能五至功能七，亮黄底红字并标注未满足需求",
+    "image": "模板不内置产品图；运行时仅插入第一款种子 ASIN 的已验证 Amazon 前端主图"
+  },
+  "abaSheet": {
+    "mode": "manual-input",
+    "autoPopulate": false,
+    "autoCharts": false,
+    "contentRule": "保留 ABA排名【季度】 Sheet 名和位置，但自动渲染时清空单元格、合并区域、图片与图表，由用户人工填入。"
+  },
+  "status": "confirmed-data-driven-standard-template"
+}

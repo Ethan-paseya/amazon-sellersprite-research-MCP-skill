@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "name": "amazon-sellersprite-research-openclaw",
+  "version": "1.2.0",
+  "skills": [
+    "amazon-analyse",
+    "category-selection",
+    "keyword-research",
+    "review-analysis",
+    "product-research",
+    "product-planning"
+  ],
+  "requiredEnvironment": [
+    "SELLERSPRITE_API_KEY"
+  ],
+  "optionalEnvironment": [
+    "GEMINI_API_KEY",
+    "GLM_API_KEY"
+  ]
+}

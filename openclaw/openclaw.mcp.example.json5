@@ -1,0 +1,13 @@
+{
+  mcp: {
+    servers: {
+      sellersprite: {
+        url: "https://mcp.sellersprite.com/mcp",
+        transport: "streamable-http",
+        headers: {
+          "secret-key": "${SELLERSPRITE_API_KEY}",
+        },
+      },
+    },
+  },
+}
