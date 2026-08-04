@@ -17,19 +17,19 @@ description: 基于三款种子竞品和 SellerSprite MCP 证据生成 Amazon �
 
 执行前按顺序读取：
 
-1. `references/runtime-credential-preflight.md`
-2. `references/integrated-workflow.zh.md`
-3. `references/sellersprite-mcp-api.md`
-4. `references/product-planning-mcp-flow.zh.md`
+1. `{baseDir}/references/runtime-credential-preflight.md`
+2. `{baseDir}/references/integrated-workflow.zh.md`
+3. `{baseDir}/references/sellersprite-mcp-api.md`
+4. `{baseDir}/references/product-planning-mcp-flow.zh.md`
 
 若仓库模板可用，使用：
 
-- `templates/product-planning-report.zh.md`
-- `templates/product-planning-meeting-workbook-layout.zh.md`
-- `templates/product_planning_standard_template_V1_manifest.json`
-- `templates/product_planning_standard_template_V1_data_driven.xlsx`（默认首选）
-- `templates/product_planning_standard_template_V1_beautified.xlsx`（兼容备份）
-- `templates/product_planning_standard_template_V1.xlsx`（旧版备份）
+- `{baseDir}/templates/product-planning-report.zh.md`
+- `{baseDir}/templates/product-planning-meeting-workbook-layout.zh.md`
+- `{baseDir}/templates/product_planning_standard_template_V1_manifest.json`
+- `{baseDir}/templates/product_planning_standard_template_V1_data_driven.xlsx`（默认首选）
+- `{baseDir}/templates/product_planning_standard_template_V1_beautified.xlsx`（兼容备份）
+- `{baseDir}/templates/product_planning_standard_template_V1.xlsx`（旧版备份）
 
 ## 核心原则
 
@@ -89,7 +89,7 @@ description: 基于三款种子竞品和 SellerSprite MCP 证据生成 Amazon �
 
 ### 7. 生成统一证据对象
 
-把所有采用数据归一到 `evidence.json`。参考仓库中的 `templates/product_planning_evidence.example.json`。数值保持原始数值类型，货币、百分比和中文展示由渲染层处理。
+把所有采用数据归一到 `evidence.json`。参考 `{baseDir}/templates/product_planning_evidence.example.json`。数值保持原始数值类型，货币、百分比和中文展示由渲染层处理。
 
 每个关键结论、SWOT 条目、决策门禁和行动必须引用 `evidenceId`。`MCP原始数据` 与 `数据来源` Sheet 也从该对象生成。
 
@@ -98,13 +98,7 @@ description: 基于三款种子竞品和 SellerSprite MCP 证据生成 Amazon �
 正式渲染前运行：
 
 ```text
-python scripts/validate_product_planning_evidence.py evidence.json --output evidence_qa.json
-```
-
-仓库运行方式：
-
-```text
-python scripts/python/validate_product_planning_evidence.py evidence.json --output evidence_qa.json
+python {baseDir}/scripts/validate_product_planning_evidence.py evidence.json --output evidence_qa.json
 ```
 
 - `FAIL`：停止生成正式报告，先修复证据或口径。
