@@ -27,6 +27,20 @@ verifier = load_module("openclaw_verifier", ROOT / "verify.py")
 
 
 class OpenClawReleaseTests(unittest.TestCase):
+    def test_output_streams_are_reconfigured_to_utf8(self) -> None:
+        class FakeStream:
+            def __init__(self) -> None:
+                self.calls = []
+
+            def reconfigure(self, **kwargs) -> None:
+                self.calls.append(kwargs)
+
+        stdout = FakeStream()
+        stderr = FakeStream()
+        verifier.configure_output_encoding(stdout, stderr)
+        self.assertEqual([{"encoding": "utf-8", "errors": "replace"}], stdout.calls)
+        self.assertEqual([{"encoding": "utf-8", "errors": "replace"}], stderr.calls)
+
     def test_release_passes_offline_verification(self) -> None:
         result = verifier.verify_release(ROOT)
         self.assertEqual("PASS", result["status"], result)
