@@ -4,7 +4,7 @@ Reserved for future keyword research outputs.
 
 Suggested future artifacts:
 
-- `report.md`
+- `{ASIN} {BRAND} {SHORT_PRODUCT_NAME} 关键词调研报告.md`
 - `keywords.csv`
 - `negative_words.txt`
 - `dashboard.html`
