@@ -17,7 +17,7 @@ Build a structured keyword library for listing optimization and ad campaign plan
 
 ## Credential Preflight
 
-Before any data call, read `{baseDir}/references/runtime-credential-preflight.md`.
+Before any data call, read `references/runtime-credential-preflight.md` when it is available.
 
 - If SellerSprite MCP is not configured, unavailable, or returns an authentication error, ask the user for the SellerSprite MCP API key before keyword research.
 - If Gemini/GLM validation is part of the requested output and model keys are missing, ask for the missing keys before validation.
@@ -26,7 +26,7 @@ Before any data call, read `{baseDir}/references/runtime-credential-preflight.md
 
 ## Required Reference
 
-Read `{baseDir}/references/sellersprite-mcp-api.md` before execution.
+Read `references/sellersprite-mcp-api.md` before execution when it is available.
 Normalize `GB` to SellerSprite MCP `UK` before tool calls.
 
 ## Data Calls
@@ -59,10 +59,20 @@ Save raw or compact MCP responses before classifying keywords. Do not infer sear
 
 ## Output
 
+After `asin_detail`, derive:
+
+```text
+REPORT_TITLE = {ASIN} {BRAND} {SHORT_PRODUCT_NAME} 关键词调研报告
+```
+
+When brand or product identity is unavailable, fall back to `{ASIN} 关键词调研报告`. Use `# {REPORT_TITLE}` as the first-level heading. Remove Windows-invalid filename characters (`<>:"/\\|?*`), collapse repeated whitespace, and trim trailing spaces or periods.
+
 Save under:
 
 ```text
 keyword-reports/{ASIN}_{SITE}_{YYYYMMDD}/
 ```
 
-Recommended files: `report.md`, `keywords.csv`, `negative_words.txt`, `categorized_summary.json`.
+Required main report: `{REPORT_TITLE}.md`. Never use generic main-report names such as `report.md`, `analysis.md`, or `final.md`.
+
+Supporting files: `keywords.csv`, `negative_words.txt`, `categorized_summary.json`.
