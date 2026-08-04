@@ -8,7 +8,7 @@ Recommended runtime structure:
 
 ```text
 reports/{ASIN}_{SITE}_{YYYYMMDD}/
-├── report.md
+├── {BRAND} {SHORT_PRODUCT_NAME} Listing 全维度穿透分析报告.md
 ├── raw/
-└── optional_excel.xlsx
+└── {BRAND} {SHORT_PRODUCT_NAME} Listing 全维度穿透分析报告.xlsx
 ```
