@@ -232,14 +232,14 @@ python scripts/python/sellersprite_skill_tools.py install-skill --target codex -
 
 ```text
 reports/{ASIN}_{SITE}_{YYYYMMDD}/
-├── report.md
+├── {品牌} {产品简称} Listing 全维度穿透分析报告.md
 ├── raw/
 │   ├── asin_detail.clean.json
 │   ├── asin_sales_trend.clean.json
 │   ├── traffic_keyword.clean.json
 │   ├── traffic_extend.clean.json
 │   └── reviews_*.clean.json
-└── optional_excel.xlsx
+└── {品牌} {产品简称} Listing 全维度穿透分析报告.xlsx
 ```
 
 Markdown 报告生成后会提示：
@@ -266,7 +266,7 @@ Markdown 报告生成后会提示：
 
 ```text
 category-reports/{品类名称}_{SITE}_{YYYYMMDD}/
-├── report.md
+├── {品类名称} {SITE} 品类自动化选品分析报告.md
 ├── data.json
 └── dashboard.html
 ```
@@ -300,7 +300,7 @@ category-reports/{品类名称}_{SITE}_{YYYYMMDD}/
 
 ```text
 keyword-reports/{ASIN}_{SITE}_{YYYYMMDD}/
-├── report.md
+├── {ASIN} {品牌} {产品简称} 关键词调研报告.md
 ├── keywords.csv
 ├── negative_words.txt
 ├── keywords_*.csv
@@ -330,7 +330,7 @@ keyword-reports/{ASIN}_{SITE}_{YYYYMMDD}/
 
 ```text
 review-analysis-reports/{ASIN}_{SITE}_{YYYYMMDD}/
-├── report.md
+├── {ASIN} {品牌} {产品简称} 用户评论 VOC 深度分析报告.md
 └── data/
     ├── product_detail.clean.json
     ├── reviews_positive.clean.json
@@ -363,7 +363,7 @@ review-analysis-reports/{ASIN}_{SITE}_{YYYYMMDD}/
 
 ```text
 product-research-reports/{产品关键词}_{SITE}_{YYYYMMDD}/
-├── report.md
+├── {产品方向} {SITE} 选品深度调研报告.md
 ├── data.json
 └── dashboard.html
 ```
@@ -388,8 +388,8 @@ product-research-reports/{产品关键词}_{SITE}_{YYYYMMDD}/
 
 ```text
 product-planning-reports/{ASIN1}_{ASIN2}_{ASIN3}_{SITE}_{YYYYMMDD}/
-├── report.md
-├── planning.xlsx
+├── {产品方向} {SITE} 产品立项企划.md
+├── {产品方向} {SITE} 产品立项企划.xlsx
 ├── assumptions.md
 └── raw/
 ```
@@ -399,6 +399,8 @@ product-planning-reports/{ASIN1}_{ASIN2}_{ASIN3}_{SITE}_{YYYYMMDD}/
 ```text
 意向产品 → 市场分析 → 竞品分析与优化策略 → SWOT → ABA 人工维护页 → MCP原始数据 → 数据来源 → 进入/观察/放弃决策
 ```
+
+所有命令的 Markdown 一级标题必须与主报告文件名一致。主报告禁止使用 `report.md`、`analysis.md` 或 `final.md` 等无法辨识内容的名称；缺少品牌或产品简称时回退到 ASIN 或用户输入。
 
 ---
 
