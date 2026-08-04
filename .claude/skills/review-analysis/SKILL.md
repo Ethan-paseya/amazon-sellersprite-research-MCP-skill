@@ -55,10 +55,18 @@ Only mark an issue as a confirmed pain point when it appears in MCP review evide
 
 ## Output
 
-Save under:
+After `asin_detail`, derive:
 
 ```text
-review-analysis-reports/{ASIN}_{SITE}_{YYYYMMDD}/report.md
+REPORT_TITLE = {ASIN} {BRAND} {SHORT_PRODUCT_NAME} 用户评论 VOC 深度分析报告
 ```
+
+When brand or product identity is unavailable, fall back to `{ASIN} 用户评论 VOC 深度分析报告`. Use `# {REPORT_TITLE}` as the first-level heading and save under:
+
+```text
+review-analysis-reports/{ASIN}_{SITE}_{YYYYMMDD}/{REPORT_TITLE}.md
+```
+
+Never use generic main-report names such as `report.md`, `analysis.md`, or `final.md`. Remove Windows-invalid filename characters (`<>:"/\\|?*`), collapse repeated whitespace, and trim trailing spaces or periods.
 
 Do not publish raw review dumps or customer-identifying data.
