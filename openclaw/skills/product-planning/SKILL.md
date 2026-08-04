@@ -17,19 +17,19 @@ description: 基于三款种子竞品和 SellerSprite MCP 证据生成 Amazon �
 
 执行前按顺序读取：
 
-1. `{baseDir}/references/runtime-credential-preflight.md`
-2. `{baseDir}/references/integrated-workflow.zh.md`
-3. `{baseDir}/references/sellersprite-mcp-api.md`
-4. `{baseDir}/references/product-planning-mcp-flow.zh.md`
+1. `references/runtime-credential-preflight.md`
+2. `references/integrated-workflow.zh.md`
+3. `references/sellersprite-mcp-api.md`
+4. `references/product-planning-mcp-flow.zh.md`
 
 若仓库模板可用，使用：
 
-- `{baseDir}/templates/product-planning-report.zh.md`
-- `{baseDir}/templates/product-planning-meeting-workbook-layout.zh.md`
-- `{baseDir}/templates/product_planning_standard_template_V1_manifest.json`
-- `{baseDir}/templates/product_planning_standard_template_V1_data_driven.xlsx`（默认首选）
-- `{baseDir}/templates/product_planning_standard_template_V1_beautified.xlsx`（兼容备份）
-- `{baseDir}/templates/product_planning_standard_template_V1.xlsx`（旧版备份）
+- `templates/product-planning-report.zh.md`
+- `templates/product-planning-meeting-workbook-layout.zh.md`
+- `templates/product_planning_standard_template_V1_manifest.json`
+- `templates/product_planning_standard_template_V1_data_driven.xlsx`（默认首选）
+- `templates/product_planning_standard_template_V1_beautified.xlsx`（兼容备份）
+- `templates/product_planning_standard_template_V1.xlsx`（旧版备份）
 
 ## 核心原则
 
@@ -89,7 +89,7 @@ description: 基于三款种子竞品和 SellerSprite MCP 证据生成 Amazon �
 
 ### 7. 生成统一证据对象
 
-把所有采用数据归一到 `evidence.json`。参考 `{baseDir}/templates/product_planning_evidence.example.json`。数值保持原始数值类型，货币、百分比和中文展示由渲染层处理。
+把所有采用数据归一到 `evidence.json`。参考仓库中的 `templates/product_planning_evidence.example.json`。数值保持原始数值类型，货币、百分比和中文展示由渲染层处理。
 
 每个关键结论、SWOT 条目、决策门禁和行动必须引用 `evidenceId`。`MCP原始数据` 与 `数据来源` Sheet 也从该对象生成。
 
@@ -98,7 +98,13 @@ description: 基于三款种子竞品和 SellerSprite MCP 证据生成 Amazon �
 正式渲染前运行：
 
 ```text
-python3 "{baseDir}/scripts/validate_product_planning_evidence.py" evidence.json --output evidence_qa.json
+python scripts/validate_product_planning_evidence.py evidence.json --output evidence_qa.json
+```
+
+仓库运行方式：
+
+```text
+python scripts/python/validate_product_planning_evidence.py evidence.json --output evidence_qa.json
 ```
 
 - `FAIL`：停止生成正式报告，先修复证据或口径。
@@ -127,14 +133,6 @@ Excel 默认从 `product_planning_standard_template_V1_data_driven.xlsx` 渲染�
 
 `SWOT分析` 只重组前三 Sheet 的证据，不新增事实。`ABA排名【季度】` 固定为空白人工维护页：渲染时清除全部单元格、合并区域、图片与图表，不自动写入 ABA 排名、搜索量、关键词或点评。
 
-在 OpenClaw 主机中，规则校验通过后统一运行：
-
-```text
-python3 "{baseDir}/scripts/run_product_planning.py" evidence.json --output-dir product-planning-reports/run
-```
-
-该入口会先执行证据门禁，再调用固定模板生成 Markdown 与 Excel。不要绕过它直接拼装工作簿。
-
 ### 10. 输出质量与交叉验证
 
 交付前检查：
@@ -148,6 +146,14 @@ python3 "{baseDir}/scripts/run_product_planning.py" evidence.json --output-dir p
 可用时生成脱敏摘要并执行 Gemini + GLM 交叉验证。模型只能评估数据口径、结论一致性、风险完整性和行动可执行性，不能覆盖 MCP 原始事实。模型建议若需要新事实，必须回到 MCP 或前端重新取证。
 
 ## 输出目录
+
+从已验证的三款种子竞品归纳简洁的 `PRODUCT_DIRECTION`，并按以下方式确定标题：
+
+```text
+REPORT_TITLE = {PRODUCT_DIRECTION} {SITE} 产品立项企划
+```
+
+Markdown 一级标题必须为 `# {REPORT_TITLE}`，Markdown 与 Excel 必须使用完全相同的文件名主干。禁止把主报告命名为 `report.md`、`analysis.md` 或 `final.md`。清除 Windows 文件名非法字符（`<>:"/\\|?*`）、合并连续空白并去除结尾空格或句点。
 
 ```text
 product-planning-reports/{ASIN1}_{ASIN2}_{ASIN3}_{SITE}_{YYYYMMDD}/
