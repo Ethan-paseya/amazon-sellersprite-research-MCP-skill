@@ -29,7 +29,7 @@ Examples:
 
 ## Credential Preflight
 
-Before any data or validation call, read `references/runtime-credential-preflight.md` when it is available.
+Before any data or validation call, read `{baseDir}/references/runtime-credential-preflight.md` when it is available.
 
 - If SellerSprite MCP is not configured, unavailable, or returns an authentication error, ask the user for the SellerSprite MCP API key before data collection.
 - If Gemini or GLM credentials are missing, ask for the missing model key before claiming real Gemini/GLM validation.
@@ -43,7 +43,7 @@ Use SellerSprite MCP or a compatible marketplace data source.
 Before collecting data, read the bundled SellerSprite MCP reference when available:
 
 ```text
-references/sellersprite-mcp-api.md
+{baseDir}/references/sellersprite-mcp-api.md
 ```
 
 Load the MCP endpoint and key from environment variables, for example:
@@ -139,7 +139,7 @@ Hard rule:
 
 ## Excel Workbook Layout
 
-Use `templates/excel-workbook-layout.md` as the layout reference.
+Use `{baseDir}/templates/excel-workbook-layout.md` as the layout reference.
 
 Recommended sheets:
 
