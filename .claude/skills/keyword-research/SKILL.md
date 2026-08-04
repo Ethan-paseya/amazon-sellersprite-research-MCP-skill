@@ -59,10 +59,20 @@ Save raw or compact MCP responses before classifying keywords. Do not infer sear
 
 ## Output
 
+After `asin_detail`, derive:
+
+```text
+REPORT_TITLE = {ASIN} {BRAND} {SHORT_PRODUCT_NAME} 关键词调研报告
+```
+
+When brand or product identity is unavailable, fall back to `{ASIN} 关键词调研报告`. Use `# {REPORT_TITLE}` as the first-level heading. Remove Windows-invalid filename characters (`<>:"/\\|?*`), collapse repeated whitespace, and trim trailing spaces or periods.
+
 Save under:
 
 ```text
 keyword-reports/{ASIN}_{SITE}_{YYYYMMDD}/
 ```
 
-Recommended files: `report.md`, `keywords.csv`, `negative_words.txt`, `categorized_summary.json`.
+Required main report: `{REPORT_TITLE}.md`. Never use generic main-report names such as `report.md`, `analysis.md`, or `final.md`.
+
+Supporting files: `keywords.csv`, `negative_words.txt`, `categorized_summary.json`.
