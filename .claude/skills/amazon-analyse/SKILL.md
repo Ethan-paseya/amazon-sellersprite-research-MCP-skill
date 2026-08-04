@@ -24,7 +24,7 @@ Examples:
 - When Excel is generated, include the raw MCP responses used for the report in a dedicated workbook sheet.
 - Do not print, store, or commit API keys.
 - Do not include raw secrets in generated reports.
-- Keep filenames aligned with the report title when possible.
+- Keep the main report filename exactly aligned with the report title.
 - Store raw data separately from final reports.
 
 ## Credential Preflight
@@ -84,6 +84,20 @@ If a needed evidence point is not supported by MCP, mark it as a data gap first.
 6. Add a final data validation section.
 7. Save the Markdown report before any Excel conversion step.
 
+## Main Report Naming
+
+Derive `REPORT_TITLE` after `asin_detail` returns the brand and product identity.
+
+```text
+{BRAND} {SHORT_PRODUCT_NAME} Listing 全维度穿透分析报告
+```
+
+- Use `# {REPORT_TITLE}` as the first-level Markdown heading.
+- Save the main report as `{REPORT_TITLE}.md`; if Excel is generated, save it as `{REPORT_TITLE}.xlsx`.
+- Never use generic main-report names such as `report.md`, `analysis.md`, or `final.md`.
+- When brand or product identity is unavailable, fall back to `{ASIN} Listing 全维度穿透分析报告`.
+- Remove Windows-invalid filename characters (`<>:"/\\|?*`), collapse repeated whitespace, and trim trailing spaces or periods without changing the visible meaning.
+
 ## Data Validation
 
 Append a section named:
@@ -105,7 +119,7 @@ When Gemini/GLM keys and network are available, use them as judges. Otherwise wr
 
 ## Optional Excel Output Prompt
 
-After the Markdown report has been saved, ask the user:
+After the Markdown report has been saved, ask the user in the chat/front-end response only:
 
 ```text
 是否需要转换为Excel表格输出？
@@ -119,6 +133,7 @@ Offer:
 Hard rule:
 
 - Always preserve the Markdown report regardless of whether Excel conversion is requested.
+- Do not append this Excel conversion prompt to the Markdown report body. It is a UI/chat prompt, not report content.
 - If Excel is generated, return both paths: Markdown report and Excel workbook.
 - If Excel is generated, add a `MCP原始数据` sheet that contains the report's raw MCP files or compact raw JSON payloads. Redact secrets, tokens, local absolute paths, and any user-private credentials before writing the sheet.
 
