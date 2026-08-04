@@ -60,10 +60,18 @@ Do not score patents, supply chain, compatibility, seasonality, or inventory ris
 
 ## Output
 
-Save a Markdown report under:
+Derive `REPORT_TITLE` from the user-supplied category and normalized site:
 
 ```text
-category-reports/{CATEGORY}_{SITE}_{YYYYMMDD}/report.md
+{CATEGORY} {SITE} 品类自动化选品分析报告
 ```
+
+Use `# {REPORT_TITLE}` as the first-level heading and save under:
+
+```text
+category-reports/{CATEGORY}_{SITE}_{YYYYMMDD}/{REPORT_TITLE}.md
+```
+
+Never use generic main-report names such as `report.md`, `analysis.md`, or `final.md`. Remove Windows-invalid filename characters (`<>:"/\\|?*`), collapse repeated whitespace, and trim trailing spaces or periods. If the category cannot be resolved, use the sanitized user input rather than `Unknown Category`.
 
 Do not commit raw SellerSprite responses or real category reports to public repositories.
