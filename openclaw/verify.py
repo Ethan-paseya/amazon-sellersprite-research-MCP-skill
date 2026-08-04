@@ -36,6 +36,15 @@ SENSITIVE_PATTERNS = (
 )
 
 
+def configure_output_encoding(*streams: object) -> None:
+    """Keep JSON diagnostics writable on Windows runners with legacy code pages."""
+    targets = streams or (sys.stdout, sys.stderr)
+    for stream in targets:
+        reconfigure = getattr(stream, "reconfigure", None)
+        if callable(reconfigure):
+            reconfigure(encoding="utf-8", errors="replace")
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT)
@@ -144,6 +153,7 @@ def probe_openclaw(errors: list[str]) -> None:
 
 
 def main() -> int:
+    configure_output_encoding()
     args = parse_args()
     result = verify_release(args.root)
     if args.probe_openclaw:
