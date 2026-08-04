@@ -17,7 +17,7 @@ Turn review data into product decisions: what users love, why users complain, an
 
 ## Credential Preflight
 
-Before any data call, read `references/runtime-credential-preflight.md` when it is available.
+Before any data call, read `{baseDir}/references/runtime-credential-preflight.md` when it is available.
 
 - If SellerSprite MCP is not configured, unavailable, or returns an authentication error, ask the user for the SellerSprite MCP API key before review analysis.
 - If Gemini/GLM validation is part of the requested output and model keys are missing, ask for the missing keys before validation.
@@ -26,7 +26,7 @@ Before any data call, read `references/runtime-credential-preflight.md` when it 
 
 ## Required Reference
 
-Read `references/sellersprite-mcp-api.md` before execution when it is available.
+Read `{baseDir}/references/sellersprite-mcp-api.md` before execution when it is available.
 Normalize `GB` to SellerSprite MCP `UK` before tool calls.
 
 ## Data Calls
