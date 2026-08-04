@@ -16,7 +16,7 @@ Purpose:
 Output:
 
 ```text
-reports/{ASIN}_{SITE}_{YYYYMMDD}/report.md
+reports/{ASIN}_{SITE}_{YYYYMMDD}/{BRAND} {SHORT_PRODUCT_NAME} Listing 全维度穿透分析报告.md
 ```
 
 ## 2. Category Selection
@@ -34,7 +34,7 @@ Purpose:
 Output:
 
 ```text
-category-reports/{CATEGORY}_{SITE}_{YYYYMMDD}/report.md
+category-reports/{CATEGORY}_{SITE}_{YYYYMMDD}/{CATEGORY} {SITE} 品类自动化选品分析报告.md
 ```
 
 ## 3. Keyword Research
@@ -53,6 +53,7 @@ Output:
 
 ```text
 keyword-reports/{ASIN}_{SITE}_{YYYYMMDD}/
+└── {ASIN} {BRAND} {SHORT_PRODUCT_NAME} 关键词调研报告.md
 ```
 
 ## 4. Review Analysis
@@ -70,7 +71,7 @@ Purpose:
 Output:
 
 ```text
-review-analysis-reports/{ASIN}_{SITE}_{YYYYMMDD}/report.md
+review-analysis-reports/{ASIN}_{SITE}_{YYYYMMDD}/{ASIN} {BRAND} {SHORT_PRODUCT_NAME} 用户评论 VOC 深度分析报告.md
 ```
 
 ## 5. Product Research
@@ -88,7 +89,7 @@ Purpose:
 Output:
 
 ```text
-product-research-reports/{PRODUCT_KEYWORD}_{SITE}_{YYYYMMDD}/report.md
+product-research-reports/{PRODUCT_KEYWORD}_{SITE}_{YYYYMMDD}/{PRODUCT_DIRECTION} {SITE} 选品深度调研报告.md
 ```
 
 ## 6. Product Planning
@@ -108,4 +109,8 @@ Output:
 
 ```text
 product-planning-reports/{ASIN1}_{ASIN2}_{ASIN3}_{SITE}_{YYYYMMDD}/
+├── {PRODUCT_DIRECTION} {SITE} 产品立项企划.md
+└── {PRODUCT_DIRECTION} {SITE} 产品立项企划.xlsx
 ```
+
+For every command, the first-level report heading and the main report filename must use the same `REPORT_TITLE`. Generic main-report filenames such as `report.md`, `analysis.md`, and `final.md` are not allowed.
