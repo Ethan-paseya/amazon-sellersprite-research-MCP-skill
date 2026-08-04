@@ -17,7 +17,7 @@ Turn review data into product decisions: what users love, why users complain, an
 
 ## Credential Preflight
 
-Before any data call, read `{baseDir}/references/runtime-credential-preflight.md`.
+Before any data call, read `{baseDir}/references/runtime-credential-preflight.md` when it is available.
 
 - If SellerSprite MCP is not configured, unavailable, or returns an authentication error, ask the user for the SellerSprite MCP API key before review analysis.
 - If Gemini/GLM validation is part of the requested output and model keys are missing, ask for the missing keys before validation.
@@ -26,7 +26,7 @@ Before any data call, read `{baseDir}/references/runtime-credential-preflight.md
 
 ## Required Reference
 
-Read `{baseDir}/references/sellersprite-mcp-api.md` before execution.
+Read `{baseDir}/references/sellersprite-mcp-api.md` before execution when it is available.
 Normalize `GB` to SellerSprite MCP `UK` before tool calls.
 
 ## Data Calls
@@ -55,10 +55,18 @@ Only mark an issue as a confirmed pain point when it appears in MCP review evide
 
 ## Output
 
-Save under:
+After `asin_detail`, derive:
 
 ```text
-review-analysis-reports/{ASIN}_{SITE}_{YYYYMMDD}/report.md
+REPORT_TITLE = {ASIN} {BRAND} {SHORT_PRODUCT_NAME} 用户评论 VOC 深度分析报告
 ```
+
+When brand or product identity is unavailable, fall back to `{ASIN} 用户评论 VOC 深度分析报告`. Use `# {REPORT_TITLE}` as the first-level heading and save under:
+
+```text
+review-analysis-reports/{ASIN}_{SITE}_{YYYYMMDD}/{REPORT_TITLE}.md
+```
+
+Never use generic main-report names such as `report.md`, `analysis.md`, or `final.md`. Remove Windows-invalid filename characters (`<>:"/\\|?*`), collapse repeated whitespace, and trim trailing spaces or periods.
 
 Do not publish raw review dumps or customer-identifying data.

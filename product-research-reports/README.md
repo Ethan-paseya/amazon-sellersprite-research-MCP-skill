@@ -8,7 +8,7 @@ Recommended runtime structure:
 
 ```text
 product-research-reports/{PRODUCT_KEYWORD}_{SITE}_{YYYYMMDD}/
-├── report.md
+├── {PRODUCT_DIRECTION} {SITE} 选品深度调研报告.md
 ├── data.json
 └── dashboard.html
 ```

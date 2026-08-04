@@ -17,7 +17,7 @@ Evaluate a product opportunity and produce a decision-ready research report.
 
 ## Credential Preflight
 
-Before any data call, read `references/runtime-credential-preflight.md` when it is available.
+Before any data call, read `{baseDir}/references/runtime-credential-preflight.md` when it is available.
 
 - If SellerSprite MCP is not configured, unavailable, or returns an authentication error, ask the user for the SellerSprite MCP API key before product research.
 - If Gemini/GLM validation is part of the requested output and model keys are missing, ask for the missing keys before validation.
@@ -26,7 +26,7 @@ Before any data call, read `references/runtime-credential-preflight.md` when it 
 
 ## Required Reference
 
-Read `references/sellersprite-mcp-api.md` before execution when it is available.
+Read `{baseDir}/references/sellersprite-mcp-api.md` before execution when it is available.
 Normalize `GB` to SellerSprite MCP `UK` before tool calls.
 
 ## Data Calls
@@ -72,10 +72,18 @@ Do not invent supply-chain, patent, compatibility, seasonality, inventory, or ce
 
 ## Output
 
-Save under:
+Derive a concise product direction from the validated research scope:
 
 ```text
-product-research-reports/{PRODUCT_KEYWORD}_{SITE}_{YYYYMMDD}/report.md
+REPORT_TITLE = {PRODUCT_DIRECTION} {SITE} 选品深度调研报告
 ```
+
+If a validated direction is not yet available, use the sanitized user-supplied `{PRODUCT_KEYWORD}` as `PRODUCT_DIRECTION`. Use `# {REPORT_TITLE}` as the first-level heading and save under:
+
+```text
+product-research-reports/{PRODUCT_KEYWORD}_{SITE}_{YYYYMMDD}/{REPORT_TITLE}.md
+```
+
+Never use generic main-report names such as `report.md`, `analysis.md`, or `final.md`. Remove Windows-invalid filename characters (`<>:"/\\|?*`), collapse repeated whitespace, and trim trailing spaces or periods.
 
 Do not publish raw product exports or private cost assumptions.

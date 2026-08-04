@@ -17,7 +17,7 @@ Evaluate whether a category is worth entering and identify product-entry angles.
 
 ## Credential Preflight
 
-Before any data call, read `{baseDir}/references/runtime-credential-preflight.md`.
+Before any data call, read `{baseDir}/references/runtime-credential-preflight.md` when it is available.
 
 - If SellerSprite MCP is not configured, unavailable, or returns an authentication error, ask the user for the SellerSprite MCP API key before category analysis.
 - If Gemini/GLM validation is part of the requested output and model keys are missing, ask for the missing keys before validation.
@@ -26,7 +26,7 @@ Before any data call, read `{baseDir}/references/runtime-credential-preflight.md
 
 ## Required Reference
 
-Read `{baseDir}/references/sellersprite-mcp-api.md` before execution.
+Read `{baseDir}/references/sellersprite-mcp-api.md` before execution when it is available.
 Normalize `GB` to SellerSprite MCP `UK` before tool calls.
 
 ## Data Calls
@@ -60,10 +60,18 @@ Do not score patents, supply chain, compatibility, seasonality, or inventory ris
 
 ## Output
 
-Save a Markdown report under:
+Derive `REPORT_TITLE` from the user-supplied category and normalized site:
 
 ```text
-category-reports/{CATEGORY}_{SITE}_{YYYYMMDD}/report.md
+{CATEGORY} {SITE} 品类自动化选品分析报告
 ```
+
+Use `# {REPORT_TITLE}` as the first-level heading and save under:
+
+```text
+category-reports/{CATEGORY}_{SITE}_{YYYYMMDD}/{REPORT_TITLE}.md
+```
+
+Never use generic main-report names such as `report.md`, `analysis.md`, or `final.md`. Remove Windows-invalid filename characters (`<>:"/\\|?*`), collapse repeated whitespace, and trim trailing spaces or periods. If the category cannot be resolved, use the sanitized user input rather than `Unknown Category`.
 
 Do not commit raw SellerSprite responses or real category reports to public repositories.

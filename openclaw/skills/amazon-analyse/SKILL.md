@@ -24,12 +24,12 @@ Examples:
 - When Excel is generated, include the raw MCP responses used for the report in a dedicated workbook sheet.
 - Do not print, store, or commit API keys.
 - Do not include raw secrets in generated reports.
-- Keep filenames aligned with the report title when possible.
+- Keep the main report filename exactly aligned with the report title.
 - Store raw data separately from final reports.
 
 ## Credential Preflight
 
-Before any data or validation call, read `{baseDir}/references/runtime-credential-preflight.md`.
+Before any data or validation call, read `{baseDir}/references/runtime-credential-preflight.md` when it is available.
 
 - If SellerSprite MCP is not configured, unavailable, or returns an authentication error, ask the user for the SellerSprite MCP API key before data collection.
 - If Gemini or GLM credentials are missing, ask for the missing model key before claiming real Gemini/GLM validation.
@@ -83,6 +83,20 @@ If a needed evidence point is not supported by MCP, mark it as a data gap first.
 5. Generate a Chinese Markdown report.
 6. Add a final data validation section.
 7. Save the Markdown report before any Excel conversion step.
+
+## Main Report Naming
+
+Derive `REPORT_TITLE` after `asin_detail` returns the brand and product identity.
+
+```text
+{BRAND} {SHORT_PRODUCT_NAME} Listing 全维度穿透分析报告
+```
+
+- Use `# {REPORT_TITLE}` as the first-level Markdown heading.
+- Save the main report as `{REPORT_TITLE}.md`; if Excel is generated, save it as `{REPORT_TITLE}.xlsx`.
+- Never use generic main-report names such as `report.md`, `analysis.md`, or `final.md`.
+- When brand or product identity is unavailable, fall back to `{ASIN} Listing 全维度穿透分析报告`.
+- Remove Windows-invalid filename characters (`<>:"/\\|?*`), collapse repeated whitespace, and trim trailing spaces or periods without changing the visible meaning.
 
 ## Data Validation
 

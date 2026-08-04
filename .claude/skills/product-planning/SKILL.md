@@ -17,18 +17,19 @@ description: 基于三款种子竞品和 SellerSprite MCP 证据生成 Amazon �
 
 执行前按顺序读取：
 
-1. `references/runtime-credential-preflight.md`
-2. `references/integrated-workflow.zh.md`
-3. `references/sellersprite-mcp-api.md`
-4. `references/product-planning-mcp-flow.zh.md`
+1. `{baseDir}/references/runtime-credential-preflight.md`
+2. `{baseDir}/references/integrated-workflow.zh.md`
+3. `{baseDir}/references/sellersprite-mcp-api.md`
+4. `{baseDir}/references/product-planning-mcp-flow.zh.md`
 
 若仓库模板可用，使用：
 
-- `templates/product-planning-report.zh.md`
-- `templates/product-planning-meeting-workbook-layout.zh.md`
-- `templates/product_planning_standard_template_V1_manifest.json`
-- `templates/product_planning_standard_template_V1_beautified.xlsx`（默认首选）
-- `templates/product_planning_standard_template_V1.xlsx`（兼容备份）
+- `{baseDir}/templates/product-planning-report.zh.md`
+- `{baseDir}/templates/product-planning-meeting-workbook-layout.zh.md`
+- `{baseDir}/templates/product_planning_standard_template_V1_manifest.json`
+- `{baseDir}/templates/product_planning_standard_template_V1_data_driven.xlsx`（默认首选）
+- `{baseDir}/templates/product_planning_standard_template_V1_beautified.xlsx`（兼容备份）
+- `{baseDir}/templates/product_planning_standard_template_V1.xlsx`（旧版备份）
 
 ## 核心原则
 
@@ -81,14 +82,14 @@ description: 基于三款种子竞品和 SellerSprite MCP 证据生成 Amazon �
 2. 关键词：`keyword_miner`、`keyword_research`、`keyword_research_trends`。
 3. 竞品：`asin_detail`、`asin_sales_trend`，必要时使用可用的价格、优惠或流量工具。
 4. VOC：`review`，4-5 星用于已验证卖点，1-3 星用于痛点。
-5. ABA/流量：`keyword_order`、`traffic_keyword_stat`、`traffic_keyword`、`traffic_source`、可用的 ABA 工具。
+5. ABA/流量：可按分析需要调用 `keyword_order`、`traffic_keyword_stat`、`traffic_keyword`、`traffic_source` 或可用 ABA 工具；结果仅用于 Markdown 与审计证据，不自动写入 `ABA排名【季度】` Sheet。
 6. 辅助风险：按需使用 `google_trend`、`trademark_*`。
 
 `market_product_demand_trend` 空返回时只按官方文档允许的月份参数重试；不得用 ASIN 聚合替代类目趋势。
 
 ### 7. 生成统一证据对象
 
-把所有采用数据归一到 `evidence.json`。参考仓库中的 `templates/product_planning_evidence.example.json`。数值保持原始数值类型，货币、百分比和中文展示由渲染层处理。
+把所有采用数据归一到 `evidence.json`。参考 `{baseDir}/templates/product_planning_evidence.example.json`。数值保持原始数值类型，货币、百分比和中文展示由渲染层处理。
 
 每个关键结论、SWOT 条目、决策门禁和行动必须引用 `evidenceId`。`MCP原始数据` 与 `数据来源` Sheet 也从该对象生成。
 
@@ -97,13 +98,7 @@ description: 基于三款种子竞品和 SellerSprite MCP 证据生成 Amazon �
 正式渲染前运行：
 
 ```text
-python scripts/validate_product_planning_evidence.py evidence.json --output evidence_qa.json
-```
-
-仓库运行方式：
-
-```text
-python scripts/python/validate_product_planning_evidence.py evidence.json --output evidence_qa.json
+python {baseDir}/scripts/validate_product_planning_evidence.py evidence.json --output evidence_qa.json
 ```
 
 - `FAIL`：停止生成正式报告，先修复证据或口径。
@@ -124,13 +119,13 @@ python scripts/python/validate_product_planning_evidence.py evidence.json --outp
 
 `意向产品` 的参考图默认使用第一款种子 ASIN 经核验的 Amazon 前端主图。无法验证时写 `N/A`，不能替换为无关图片。
 
-Excel 默认从 `product_planning_standard_template_V1_beautified.xlsx` 渲染。意向产品中功能一至四为已验证卖点，使用灰底红字；功能五至七为评论中可转化的未满足需求，使用亮黄底红字。首选模板缺失或损坏时才回退到旧 V1 模板，并在数据来源中记录回退原因。
+Excel 默认从 `product_planning_standard_template_V1_data_driven.xlsx` 渲染。该模板只保留七 Sheet 结构、字段位置、样式和图表，不包含真实业务数据；运行时由通过校验的 `evidence.json` 填充。意向产品中功能一至四为已验证卖点，使用灰底红字；功能五至七为评论中可转化的未满足需求，使用亮黄底红字。首选模板缺失或损坏时回退到美化版，再回退到旧 V1 模板，并在数据来源中记录原因。
 
 `市场分析` 必须使用已锁定节点的 12 月趋势、关键词、上架时间/年份、评分数、评分值和价格分布；每张图下方给出不超过三条产品经理点评。
 
 `竞品分析与优化策略` 固定展示三款用户竞品与一款系统补充竞品，包含售价柱状图加评分数折线图、Listing/VOC 优化矩阵。结论不超过三条，落到样品验证、Listing 表达、定价或投放动作。
 
-`SWOT分析` 只重组前三 Sheet 的证据，不新增事实。`ABA排名【季度】` 只填接口真实返回；空字段写 `N/A`。
+`SWOT分析` 只重组前三 Sheet 的证据，不新增事实。`ABA排名【季度】` 固定为空白人工维护页：渲染时清除全部单元格、合并区域、图片与图表，不自动写入 ABA 排名、搜索量、关键词或点评。
 
 ### 10. 输出质量与交叉验证
 
@@ -145,6 +140,14 @@ Excel 默认从 `product_planning_standard_template_V1_beautified.xlsx` 渲染�
 可用时生成脱敏摘要并执行 Gemini + GLM 交叉验证。模型只能评估数据口径、结论一致性、风险完整性和行动可执行性，不能覆盖 MCP 原始事实。模型建议若需要新事实，必须回到 MCP 或前端重新取证。
 
 ## 输出目录
+
+从已验证的三款种子竞品归纳简洁的 `PRODUCT_DIRECTION`，并按以下方式确定标题：
+
+```text
+REPORT_TITLE = {PRODUCT_DIRECTION} {SITE} 产品立项企划
+```
+
+Markdown 一级标题必须为 `# {REPORT_TITLE}`，Markdown 与 Excel 必须使用完全相同的文件名主干。禁止把主报告命名为 `report.md`、`analysis.md` 或 `final.md`。清除 Windows 文件名非法字符（`<>:"/\\|?*`）、合并连续空白并去除结尾空格或句点。
 
 ```text
 product-planning-reports/{ASIN1}_{ASIN2}_{ASIN3}_{SITE}_{YYYYMMDD}/
