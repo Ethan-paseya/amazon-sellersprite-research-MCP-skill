@@ -72,10 +72,18 @@ Do not invent supply-chain, patent, compatibility, seasonality, inventory, or ce
 
 ## Output
 
-Save under:
+Derive a concise product direction from the validated research scope:
 
 ```text
-product-research-reports/{PRODUCT_KEYWORD}_{SITE}_{YYYYMMDD}/report.md
+REPORT_TITLE = {PRODUCT_DIRECTION} {SITE} 选品深度调研报告
 ```
+
+If a validated direction is not yet available, use the sanitized user-supplied `{PRODUCT_KEYWORD}` as `PRODUCT_DIRECTION`. Use `# {REPORT_TITLE}` as the first-level heading and save under:
+
+```text
+product-research-reports/{PRODUCT_KEYWORD}_{SITE}_{YYYYMMDD}/{REPORT_TITLE}.md
+```
+
+Never use generic main-report names such as `report.md`, `analysis.md`, or `final.md`. Remove Windows-invalid filename characters (`<>:"/\\|?*`), collapse repeated whitespace, and trim trailing spaces or periods.
 
 Do not publish raw product exports or private cost assumptions.
