@@ -8,8 +8,8 @@ Recommended runtime structure:
 
 ```text
 product-planning-reports/{ASIN1}_{ASIN2}_{ASIN3}_{SITE}_{YYYYMMDD}/
-├── report.md
-├── planning.xlsx
+├── {PRODUCT_DIRECTION} {SITE} 产品立项企划.md
+├── {PRODUCT_DIRECTION} {SITE} 产品立项企划.xlsx
 ├── assumptions.md
 └── raw/
 ```
