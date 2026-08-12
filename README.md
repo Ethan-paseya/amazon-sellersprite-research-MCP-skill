@@ -1,6 +1,6 @@
 # Amazon SellerSprite MCP Skills
 
-基于 SellerSprite MCP 服务和 Agent Skills 的亚马逊研究工具集，覆盖竞品 Listing 分析、品类选品、关键词调研、评论 VOC 分析、选品深度调研和产品立项企划。
+基于 SellerSprite MCP 服务和 Agent Skills 的亚马逊全链路研究工具集，覆盖 Listing、市场、竞品、关键词、流量、评论、定价、广告、选品和产品立项。
 
 > 本仓库是脱敏开源模板，不包含真实 API key、真实商品报告、卖家数据、ASIN 数据、评论原文或私有选品结论。所有密钥均通过本地 `.mcp.json` 或 `.env` 配置。
 
@@ -8,20 +8,30 @@ SellerSprite MCP 官方文档：https://open.sellersprite.com/mcp
 
 ## 项目简介
 
-本项目配置了 SellerSprite 跨境电商数据服务的 MCP 服务器，并提供六个核心技能：
+本项目提供 16 个可复用 Skill，其中 10 个组成 SellerSprite 全链路综合分析工作流：
 
 | 技能 | 分析对象 | 命令 | 用途 |
 |---|---|---|---|
 | `amazon-analyse` | 单个 Listing | `/amazon-analyse {ASIN} {SITE}` | 竞品 Listing 全维度穿透分析 |
-| `category-selection` | 整个品类 | `/category-select "{品类}" {SITE}` | 品类自动化选品分析 |
+| `category-selection` | 整个品类 | `/category-select "{CATEGORY}" {SITE}` | 品类自动化选品分析 |
+| `market-analysis` | 类目或叶子节点 | `/market-analysis "{CATEGORY_OR_NODE}" {SITE}` | 市场规模、趋势、集中度和分布全景分析 |
+| `competitor-analysis` | 1-4 个代表竞品 | `/competitor-analysis "{ASIN1;ASIN2;ASIN3}" {SITE}` | 竞品详情、流量、卖点和 VOC 深度拆解 |
+| `listing-optimizer` | 单个 Listing | `/listing-optimizer {ASIN} {SITE}` | Listing 文案、关键词覆盖和转化表达诊断 |
+| `traffic-analysis` | 单个 ASIN 流量 | `/traffic-analysis {ASIN} {SITE}` | 自然、推荐、广告和关联流量结构分析 |
+| `opportunity-finder` | 关键词或类目机会 | `/opportunity-finder "{KEYWORD_OR_CATEGORY}" {SITE}` | ABA 增长、趋势与未饱和机会识别 |
+| `review-insights` | 单个 ASIN 评论 | `/review-insights {ASIN} {SITE}` | 评论聚类、期望差与产品机会洞察 |
+| `pricing-strategy` | ASIN、类目或节点 | `/pricing-strategy "{ASIN_OR_CATEGORY_OR_NODE}" {SITE}` | 价格分布、真实商品池和价格桶效率分析 |
+| `ad-optimizer` | 单个 ASIN 关键词投放 | `/ad-optimizer {ASIN} {SITE}` | 出单词、流量词和投放优先级优化 |
+| `sellersprite-amazon-research` | 跨工作流对象 | `/sellersprite-research "{OBJECT}" {SITE}` | 能力预检、任务路由和证据编排 |
+| `keyword-selection` | 多个关键词自动化选品 | `/keyword-select "{KEYWORD1;KEYWORD2;KEYWORD3}" {SITE}` | 关键词漏斗、节点容量、价格桶效率和代表 ASIN 自动化选品 |
 | `keyword-research` | 关键词词库 | `/keyword-research {ASIN} {SITE}` | 关键词深度调研与 8 维智能分类 |
 | `review-analysis` | 用户评论 | `/review-analysis {ASIN} {SITE}` | 评论深度分析与痛点挖掘 |
-| `product-research` | 选品深度调研 | `/product-research "{产品关键词}" {SITE}` | LLM 驱动的选品深度调研与决策 |
+| `product-research` | 选品深度调研 | `/product-research "{PRODUCT_KEYWORD}" {SITE}` | LLM 驱动的选品深度调研与决策 |
 | `product-planning` | 产品立项企划 | `/product-planning "{ASIN1;ASIN2;ASIN3}" {SITE}` | 以三款种子竞品为证据起点，推导产品方向并输出 V1 标准企划 |
 
 ## OpenClaw + 飞书
 
-飞书只是对话入口，六个 Skill 与 SellerSprite MCP 必须安装在运行 OpenClaw Gateway 的主机。不要在飞书聊天中要求 Agent 每次临时阅读整个仓库；使用仓库内的 OpenClaw 专用发行层进行持久安装：
+飞书只是对话入口，16 个 Skill 与 SellerSprite MCP 必须安装在运行 OpenClaw Gateway 的主机。不要在飞书聊天中要求 Agent 每次临时阅读整个仓库；使用仓库内的 OpenClaw 专用发行层进行持久安装：
 
 ```bash
 git clone https://github.com/Ethan-paseya/amazon-sellersprite-research-MCP-skill.git
@@ -34,6 +44,14 @@ python3 openclaw/verify.py
 完整部署、MCP 探测、更新、回退与飞书文件回传说明见 [`openclaw/README.zh-CN.md`](openclaw/README.zh-CN.md)。
 
 ## 核心功能
+
+### 官方能力预检与缺失接口降级
+
+- 官方工具目录来自 `https://open.sellersprite.com/mcp`，当前快照包含 45 个工具；实际参数始终以运行时 MCP Schema 为准。
+- 每次工作流先生成 `capabilities.json`，将工具标为 `native`、`fallback` 或 `blocked`。
+- `asin_competitor` 缺失时使用 `competitor_lookup + traffic_listing + asin_detail` 并执行站点、标题和类目相关性校验。
+- `keyword_conversion` 缺失时使用 `keyword_order + traffic_keyword + keyword_research`，只报告购买/出单证据，不冒充原生转化率。
+- 每次运行保留标题命名 Markdown、`evidence.json` 和 `run_state.json`；决策工作流还需 `gates.json`。
 
 ### Listing 级别分析 `amazon-analyse`
 
@@ -56,6 +74,14 @@ python3 openclaw/verify.py
 - **8 维智能分类**：否定词、品牌词、材质词、场景词、属性词、功能词、核心词、其他。
 - **广告策略指导**：否定词清单、精准匹配组、场景广告组、广泛匹配组。
 - **多格式输出建议**：Markdown 报告、CSV 词库、否定词清单、分类统计 JSON。
+
+### 关键词自动化选品 `keyword-selection`
+
+- **摄影节点消歧**：把宽词下钻到摄影叶子节点，并在深采集前执行 Top20 标题相关性门禁，排除汽车、枪械、乐器及低相关节点。
+- **跨方向覆盖**：融合产品至少两个方向同时具备关键词、趋势、节点容量和带销量商品证据，禁止以单一方向外推全部机会。
+- **确定性漏斗**：依次执行词族容量、趋势、竞争、价格桶效率、增长质量和代表 ASIN 门禁，阈值由 YAML profile 管理，不使用主观总分。
+- **真实价格商品池**：默认 `$15-$55`，通过 `keyword_research` 与 `product_research` 的价格参数硬过滤；`market_price_distribution` 只作背景。
+- **可续跑产物**：除 Markdown、9-Sheet Excel、`evidence.json`、`gates.json` 外，生成 `judge_input.json` 与 `run_state.json`；MCP 查询按口径缓存，并对 3 款代表 ASIN 复用完整 `/amazon-analyse`。
 
 ### 评论深度分析 `review-analysis`
 
@@ -92,6 +118,7 @@ python3 openclaw/verify.py
 - Claude Code CLI、Codex 或其他兼容 Agent Skills 的环境
 - 有效的 SellerSprite MCP API Key
 - Python 3.10+（推荐）
+- `openpyxl>=3.1,<4`（Excel 渲染；可运行 `python -m pip install -r requirements.txt`）
 - Gemini API Key、GLM API Key：用于完整的双模型交叉验证；如果缺失，运行时会主动询问，且不能声称已完成真实 Gemini/GLM 验证。
 
 ### 获取 SellerSprite API Key
@@ -232,14 +259,14 @@ python scripts/python/sellersprite_skill_tools.py install-skill --target codex -
 
 ```text
 reports/{ASIN}_{SITE}_{YYYYMMDD}/
-├── report.md
+├── {BRAND} {PRODUCT_SHORT_NAME} Listing 全维度穿透分析报告.md
 ├── raw/
 │   ├── asin_detail.clean.json
 │   ├── asin_sales_trend.clean.json
 │   ├── traffic_keyword.clean.json
 │   ├── traffic_extend.clean.json
 │   └── reviews_*.clean.json
-└── optional_excel.xlsx
+└── {BRAND} {PRODUCT_SHORT_NAME} Listing 全维度穿透分析报告.xlsx
 ```
 
 Markdown 报告生成后会提示：
@@ -265,8 +292,8 @@ Markdown 报告生成后会提示：
 报告保存：
 
 ```text
-category-reports/{品类名称}_{SITE}_{YYYYMMDD}/
-├── report.md
+category-reports/{CATEGORY_NAME}_{SITE}_{YYYYMMDD}/
+├── {CATEGORY_NAME} {SITE} 品类自动化选品分析报告.md
 ├── data.json
 └── dashboard.html
 ```
@@ -290,7 +317,36 @@ category-reports/{品类名称}_{SITE}_{YYYYMMDD}/
 | 50-69 | 一般 | 谨慎进入 |
 | 0-49 | 较差 | 不建议进入 |
 
-### 3. 关键词深度调研
+### 3. 关键词自动化选品
+
+```text
+/keyword-select "Grips;Mounts;Photo & Video Accessories;Stands" US
+```
+
+首版只处理手机摄影、相机摄影和跨设备摄影配件。输入 3-5 个种子词，默认目标价格为 `$15-$55`；用户明确指定其他区间时覆盖。
+
+报告保存：
+
+```text
+keyword-selection-reports/{SEED_SLUG}_{SITE}_{YYYYMMDD}/
+├── {KEYWORD_GROUP} {SITE} 关键词自动化选品分析报告.md
+├── {KEYWORD_GROUP} {SITE} 关键词自动化选品分析报告.xlsx
+├── evidence.json
+├── gates.json
+├── judge_input.json
+├── run_state.json
+└── asin-analysis/
+```
+
+固定门禁流程：
+
+```text
+摄影节点下钻 → Top20标题相关性 → 方向覆盖 → 关键词与趋势 → 节点容量与竞争 → 价格桶效率 → 增长质量 → 3款代表ASIN → Schema约束双模型审查
+```
+
+节点容量必须使用 `market_research.totalUnits/totalRevenue`；父节点汇总无法按 ASIN 去重时必须标记“未去重参考容量”。Excel 固定为 9 个 Sheet，并保留脱敏 `MCP原始数据` 与 `数据来源`。
+
+### 4. 关键词深度调研
 
 ```text
 /keyword-research {ASIN} US
@@ -300,7 +356,7 @@ category-reports/{品类名称}_{SITE}_{YYYYMMDD}/
 
 ```text
 keyword-reports/{ASIN}_{SITE}_{YYYYMMDD}/
-├── report.md
+├── {ASIN} {BRAND} {PRODUCT_SHORT_NAME} 关键词调研报告.md
 ├── keywords.csv
 ├── negative_words.txt
 ├── keywords_*.csv
@@ -320,7 +376,7 @@ keyword-reports/{ASIN}_{SITE}_{YYYYMMDD}/
 | CORE | 核心产品词 | 主词投放 |
 | OTHER | 其他 | 补充埋词或人工复核 |
 
-### 4. 评论深度分析
+### 5. 评论深度分析
 
 ```text
 /review-analysis {ASIN} US
@@ -330,7 +386,7 @@ keyword-reports/{ASIN}_{SITE}_{YYYYMMDD}/
 
 ```text
 review-analysis-reports/{ASIN}_{SITE}_{YYYYMMDD}/
-├── report.md
+├── {ASIN} {BRAND} {PRODUCT_SHORT_NAME} 用户评论 VOC 深度分析报告.md
 └── data/
     ├── product_detail.clean.json
     ├── reviews_positive.clean.json
@@ -349,7 +405,7 @@ review-analysis-reports/{ASIN}_{SITE}_{YYYYMMDD}/
 | 描述不符 | 尺寸、颜色、功能预期偏差 | 高/中/低 |
 | 服务/物流问题 | 二手/瑕疵品、配件缺失、退换货困难 | 高/中/低 |
 
-### 5. 选品深度调研
+### 6. 选品深度调研
 
 ```text
 # 分析一个产品方向
@@ -362,8 +418,8 @@ review-analysis-reports/{ASIN}_{SITE}_{YYYYMMDD}/
 报告保存：
 
 ```text
-product-research-reports/{产品关键词}_{SITE}_{YYYYMMDD}/
-├── report.md
+product-research-reports/{PRODUCT_KEYWORD}_{SITE}_{YYYYMMDD}/
+├── {PRODUCT_DIRECTION} {SITE} 选品深度调研报告.md
 ├── data.json
 └── dashboard.html
 ```
@@ -374,7 +430,7 @@ product-research-reports/{产品关键词}_{SITE}_{YYYYMMDD}/
 信息收集 → 数据采集 → 属性标注 → 交叉分析 → 竞品与 VOC → 壁垒评估 → 选品决策 → 报告输出
 ```
 
-### 6. 产品立项企划
+### 7. 产品立项企划
 
 ```text
 # 基于产品方向输出立项企划
@@ -388,8 +444,8 @@ product-research-reports/{产品关键词}_{SITE}_{YYYYMMDD}/
 
 ```text
 product-planning-reports/{ASIN1}_{ASIN2}_{ASIN3}_{SITE}_{YYYYMMDD}/
-├── report.md
-├── planning.xlsx
+├── {PRODUCT_DIRECTION} {SITE} 产品立项企划.md
+├── {PRODUCT_DIRECTION} {SITE} 产品立项企划.xlsx
 ├── assumptions.md
 └── raw/
 ```
@@ -399,6 +455,8 @@ product-planning-reports/{ASIN1}_{ASIN2}_{ASIN3}_{SITE}_{YYYYMMDD}/
 ```text
 意向产品 → 市场分析 → 竞品分析与优化策略 → SWOT → ABA 人工维护页 → MCP原始数据 → 数据来源 → 进入/观察/放弃决策
 ```
+
+所有命令的 Markdown 一级标题必须与主报告文件名一致。主报告禁止使用 `report.md`、`analysis.md` 或 `final.md` 等无法辨识内容的名称；缺少品牌或产品简称时回退到 ASIN 或用户输入。
 
 ---
 
@@ -514,6 +572,7 @@ amazon-sellersprite-research-MCP-skill/
 │   └── skills/
 │       ├── amazon-analyse/
 │       ├── category-selection/
+│       ├── keyword-selection/
 │       ├── keyword-research/
 │       ├── review-analysis/
 │       ├── product-research/
@@ -521,6 +580,7 @@ amazon-sellersprite-research-MCP-skill/
 ├── skills/
 │   ├── amazon-analyse/
 │   ├── category-selection/
+│   ├── keyword-selection/
 │   ├── keyword-research/
 │   ├── review-analysis/
 │   ├── product-research/
@@ -531,6 +591,7 @@ amazon-sellersprite-research-MCP-skill/
 │   ├── python/
 ├── reports/
 ├── category-reports/
+├── keyword-selection-reports/
 ├── keyword-reports/
 ├── review-analysis-reports/
 ├── product-research-reports/
@@ -559,7 +620,28 @@ python scripts/python/sellersprite_skill_tools.py test-open-source-skills
 python scripts/python/sellersprite_skill_tools.py publish-github-api --repo-name amazon-sellersprite-research-MCP-skill
 python scripts/python/validate_product_planning_evidence.py evidence.json --output evidence_qa.json
 python scripts/python/render_product_planning_v1.py evidence.json --template skills/product-planning/templates/product_planning_standard_template_V1_data_driven.xlsx --output-dir product-planning-reports/run --qa evidence_qa.json
+python skills/keyword-selection/scripts/keyword_selection_pipeline.py all --evidence evidence.json --out-dir keyword-selection-reports/run --profile skills/keyword-selection/references/profiles/photography-accessories.yaml --cache-dir keyword-selection-reports/.cache
+python scripts/python/sync_keyword_selection_skill.py check
+python scripts/python/package_shareable_release.py
 ```
+
+---
+
+## 生成可分享 ZIP
+
+执行以下命令会先重建脱敏插件包，再生成带便携安装器、安装说明、逐文件校验清单和 ZIP SHA-256 的 `V1.4.0` 分发包：
+
+```bash
+python scripts/python/package_shareable_release.py
+```
+
+默认输出到 `releases/amazon-sellersprite-research-MCP-skill-v1.4.0.zip`。接收方完整解压后，在解压目录运行：
+
+```bash
+python install.py
+```
+
+安装器会备份旧插件、维护默认 personal marketplace，并调用 `codex plugin add`。API key 不包含在 ZIP 中；接收方必须在 Codex 的 MCP servers 设置中使用自己的 SellerSprite key，配置基础 URL 和 `secret-key` Header 后重启 Codex。
 
 ---
 
@@ -593,9 +675,9 @@ A: Markdown 是主报告，必须保留。Excel 只是可选会议版附加输�
 
 ## 版本
 
-当前版本：`V1.2.0`
+当前版本：`V1.4.0`
 
-当前版本以 Python 工具链为默认执行入口，保留 SellerSprite MCP 六类研究技能、`product-planning` V1 数据驱动会议版模板、脱敏检查和 Gemini/GLM 交叉验证规范。
+当前版本以 Python 工具链为默认执行入口，提供 16 个 SellerSprite MCP Skill 和 10 个综合分析工作流，加入官方 45 工具能力预检、缺失接口回退、统一证据/运行状态/门禁产物，并保留 `product-planning` V1 七 Sheet 数据驱动会议版、脱敏检查和 Gemini/GLM 交叉验证规范。
 
 ---
 
